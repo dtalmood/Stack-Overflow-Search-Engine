@@ -1,5 +1,23 @@
 #include <iostream>
 #include <iomanip>
+#include <curl/curl.h> 
+#include "json.hpp"
+
+/*  
+    Notes:
+        1. libcurl: This library handles netowrk operations specifically for 
+            1a. Downloading files
+            1b. Making HTTP requests
+            1c. Interacting with web services.
+
+        2. json.hpp: After receiving the data from the network operation 
+        (which is often in JSON format), you use the json.hpp library 
+        (nlohmann/json) to parse this JSON data. This allows you to easily
+         access and manipulate the data within your C++ application.
+
+        3. C-Make: 
+*/
+
 using namespace std;
 
 void printMenu();
@@ -11,6 +29,8 @@ int main()
     cout << "Question: ";
     string userQuestion;
     getline(cin, userQuestion);
+
+
     return 0;
 }
 
