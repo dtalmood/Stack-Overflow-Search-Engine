@@ -30,9 +30,13 @@
 using namespace std;
 
 void printMenu();
-void search(string userQuestion);
+void search(const string& url);
 string constructQuestion(string &userQuestion);
-size_t write_callback(char *ptr, size_t size, size_t nmemb, void *userdata){}
+
+size_t write_callback(char *ptr, size_t size, size_t nmemb, string *userdata) {
+    userdata->append(ptr, size * nmemb);
+    return size * nmemb;
+}
 
 int main()
 {
@@ -42,7 +46,7 @@ int main()
     string userQuestion;
     getline(cin, userQuestion);
     string constructedString = constructQuestion(userQuestion);
-    //search(constructedString);
+    search(constructedString);
     return 0;
 }
 
@@ -56,24 +60,46 @@ void printMenu()
     cout << setw(leftPadding) << setfill(' ') << "" << "STACK SURFER" << setw(titleLength) << setfill(' ') << "" << endl;
     cout << setw(titleWidth) << setfill('=') << "" << endl;
 }
-void search(string userQuestion)
+
+void search(const string& url)
 {
-    cout << "Entered Tester " << endl << endl;
-    CURL *curl; // Declare a pointer to a CURL object
-    CURLcode res; // Declare a variable to hold the result of the curl operation
+    CURL *curl;
+    CURLcode res;
+    string readBuffer;
 
-    curl_global_init(CURL_GLOBAL_DEFAULT); // Initialize the cURL library globally
-    curl = curl_easy_init(); // Starts our Curl Session 
+    // Initialize libcurl
+    curl_global_init(CURL_GLOBAL_DEFAULT);
+    curl = curl_easy_init();
 
-    if(curl) 
-    { // Check if the session was initialized successfully
-        curl_easy_setopt(curl, CURLOPT_URL, "https://exanple.con/"); // Set the URL for the cURL request
-        res = curl_easy_perform(curl); // Perform the request, res will get the return code
-        curl_easy_cleanup(curl); // Clean up the CURL easy session
+    if (curl) {
+        // Set the URL to fetch
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+
+        // Set the write callback function to handle the response
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+
+        // Perform the request
+        res = curl_easy_perform(curl);
+
+        // Check for errors
+        if (res != CURLE_OK) 
+        {
+            cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << endl;
+        } 
+        else 
+        {
+            // Print the response data
+            cout << "Response Data:" << endl;
+            cout << readBuffer << endl;
+        }
+
+        // Cleanup
+        curl_easy_cleanup(curl);
     }
-   
-    curl_global_cleanup(); // Clean up the cURL library globally
 
+    // Cleanup libcurl
+    curl_global_cleanup();
 }
 
 string constructQuestion(string & userQuestion)
@@ -94,6 +120,9 @@ string constructQuestion(string & userQuestion)
     } 
     string key = "OUgS5vV1jD7kdtN8*nYZKg((";
     baseURL += "&key=" + key;
+
+    // Append the site parameter (e.g., Stack Overflow)
+    baseURL += "&site=stackoverflow";
     
     cout << "Constructed Stirng: " << baseURL << endl;
     return baseURL;
