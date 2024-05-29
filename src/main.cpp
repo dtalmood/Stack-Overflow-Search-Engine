@@ -11,7 +11,6 @@ int main()
     cout << "Question: ";
     string userQuestion;
     getline(cin, userQuestion);
-    cout << "FUCK YOU" << endl;
     return 0;
 }
 
