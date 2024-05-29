@@ -22,9 +22,6 @@
             4. make
             5. ./MyProject
 
-        To re-run build again 
-            1. rm -r build 
-            2. do steps again 
 */
 
 using namespace std;
@@ -32,6 +29,14 @@ using namespace std;
 void printMenu();
 void search(const string& url);
 string constructQuestion(string &userQuestion);
+
+/*
+    Write_callBack: Handles writing received data 
+    ptr:Pointer to recieved data 
+    size: size of each data elemetn 
+    nmemb: number of elements 
+    userData: Points to string object which contains our received data 
+*/
 
 size_t write_callback(char *ptr, size_t size, size_t nmemb, string *userdata) {
     userdata->append(ptr, size * nmemb);
@@ -75,11 +80,17 @@ void search(const string& url)
         // Set the URL to fetch
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 
-        // Set the write callback function to handle the response
+        // Curl Option 1: 
+
+        // CURLOPT_WRITEFUNCTION: Tells it that we are going to be writing data and we are specifying how to write it 
+        // write_callback: this says this is the function that is going to be doing logic for writing 
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
+        
+        // Curl Option 2: 
+        // here we are specifiying that we pass information url to a variable which in the3rd paramater we specify variable to store
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
 
-        // Perform the request
+        // After we set up options for CURL we Perform the request below 
         res = curl_easy_perform(curl);
 
         // Check for errors
@@ -118,6 +129,7 @@ string constructQuestion(string & userQuestion)
         }
 
     } 
+    // this is key generated from stack over inorder to access the stack overflow api 
     string key = "OUgS5vV1jD7kdtN8*nYZKg((";
     baseURL += "&key=" + key;
 
