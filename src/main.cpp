@@ -10,7 +10,7 @@ int main()
     cout << "Type your question and once done press enter to search. " << endl;
     cout << "Question: ";
     string userQuestion;
-    cin >>  userQuestion;
+    getline(cin, userQuestion);
     cout << "FUCK YOU" << endl;
     return 0;
 }
