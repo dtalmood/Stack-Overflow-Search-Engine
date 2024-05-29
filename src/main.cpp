@@ -1,7 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <curl/curl.h> 
-#include "json.hpp"
+#include "include/json.hpp"
 
 /*  
     Notes:
@@ -15,7 +15,15 @@
         (nlohmann/json) to parse this JSON data. This allows you to easily
          access and manipulate the data within your C++ application.
 
-        3. C-Make: 
+        3. C-Make: whne we have alot of stuff that need to consitnelty write to the command line
+        we have cmake so that we cna run it and automatily runs build files 
+
+        To Build Project Run Commands
+            1. mkdir build
+            2. build 
+            3. cmake
+            4. make
+            5.  ./MyProject
 */
 
 using namespace std;
