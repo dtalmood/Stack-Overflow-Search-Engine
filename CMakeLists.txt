@@ -7,10 +7,10 @@ project(MyProject)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Add include directory
+# Add include directory thiks is in our main.cpp file 
 include_directories(include)
 
-# Here we are creating an executable named MyProject from the source file src/main.cpp.
+# Here we are creating an executable named MyProject which will run main.cpp 
 add_executable(MyProject src/main.cpp)
 
 # Searches for the libcurl library.

@@ -1,8 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <curl/curl.h> 
-#include "include/json.hpp"
-
+#include "json.hpp"
 /*  
     Notes:
         1. libcurl: This library handles netowrk operations specifically for 
@@ -18,12 +17,15 @@
         3. C-Make: whne we have alot of stuff that need to consitnelty write to the command line
         we have cmake so that we cna run it and automatily runs build files 
 
-        To Build Project Run Commands
-            1. mkdir build
-            2. build 
-            3. cmake
+        To Build Project to Run: 
+            1. mkdir build  ( this will be in src fodler)
+            2. cmake ..  (we are in src folder )
             4. make
-            5.  ./MyProject
+            5. ./MyProject
+
+        To re-run build again 
+            1. rm -r build 
+            2. do steps again 
 */
 
 using namespace std;
@@ -37,8 +39,7 @@ int main()
     cout << "Question: ";
     string userQuestion;
     getline(cin, userQuestion);
-
-
+    
     return 0;
 }
 
