@@ -30,7 +30,9 @@
 using namespace std;
 
 void printMenu();
-void testingFunction();
+void search(string userQuestion);
+string constructQuestion(string &userQuestion);
+size_t write_callback(char *ptr, size_t size, size_t nmemb, void *userdata){}
 
 int main()
 {
@@ -39,8 +41,8 @@ int main()
     cout << "Question: ";
     string userQuestion;
     getline(cin, userQuestion);
-    testingFunction();
-
+    string constructedString = constructQuestion(userQuestion);
+    //search(constructedString);
     return 0;
 }
 
@@ -54,9 +56,45 @@ void printMenu()
     cout << setw(leftPadding) << setfill(' ') << "" << "STACK SURFER" << setw(titleLength) << setfill(' ') << "" << endl;
     cout << setw(titleWidth) << setfill('=') << "" << endl;
 }
-void testingFunction()
+void search(string userQuestion)
 {
     cout << "Entered Tester " << endl << endl;
-    CURL* curl;
-    // curl https://www.example.com/;
+    CURL *curl; // Declare a pointer to a CURL object
+    CURLcode res; // Declare a variable to hold the result of the curl operation
+
+    curl_global_init(CURL_GLOBAL_DEFAULT); // Initialize the cURL library globally
+    curl = curl_easy_init(); // Starts our Curl Session 
+
+    if(curl) 
+    { // Check if the session was initialized successfully
+        curl_easy_setopt(curl, CURLOPT_URL, "https://exanple.con/"); // Set the URL for the cURL request
+        res = curl_easy_perform(curl); // Perform the request, res will get the return code
+        curl_easy_cleanup(curl); // Clean up the CURL easy session
+    }
+   
+    curl_global_cleanup(); // Clean up the cURL library globally
+
+}
+
+string constructQuestion(string & userQuestion)
+{
+    //this base url is to need to access stack over API
+    string baseURL = "https://api.stackexchange.com/2.3/search/advanced?order=desc&sort=activity&q=";
+    for(int i = 0; i < userQuestion.length(); i++)
+    {
+        if(userQuestion[i] != 32) // while character is not a space 
+            baseURL += userQuestion[i];
+        
+        
+        else if(userQuestion[i] == 32 && (userQuestion[i+1] != 32 ))
+        {
+            baseURL += "+";
+        }
+
+    } 
+    string key = "OUgS5vV1jD7kdtN8*nYZKg((";
+    baseURL += "&key=" + key;
+    
+    cout << "Constructed Stirng: " << baseURL << endl;
+    return baseURL;
 }
