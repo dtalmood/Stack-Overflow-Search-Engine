@@ -17,8 +17,7 @@
         3. C-Make: whne we have alot of stuff that need to consitnelty write to the command line
         we have cmake so that we cna run it and automatily runs build files 
 
-        To Build Project to Run: 
-            1. mkdir build  ( this will be in src fodler)
+        To Build Project to Run: enure termins is in SRC folder 
             2. cmake ..  (we are in src folder )
             4. make
             5. ./MyProject
@@ -31,6 +30,7 @@
 using namespace std;
 
 void printMenu();
+void testingFunction();
 
 int main()
 {
@@ -39,7 +39,8 @@ int main()
     cout << "Question: ";
     string userQuestion;
     getline(cin, userQuestion);
-    
+    testingFunction();
+
     return 0;
 }
 
@@ -52,4 +53,10 @@ void printMenu()
     cout << setw(titleWidth) << setfill('=') << "" << endl;
     cout << setw(leftPadding) << setfill(' ') << "" << "STACK SURFER" << setw(titleLength) << setfill(' ') << "" << endl;
     cout << setw(titleWidth) << setfill('=') << "" << endl;
+}
+void testingFunction()
+{
+    cout << "Entered Tester " << endl << endl;
+    CURL* curl;
+    // curl https://www.example.com/;
 }
