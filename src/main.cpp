@@ -116,7 +116,9 @@ void search(const string& url)
 string constructQuestion(string & userQuestion)
 {
     //this base url is to need to access stack over API
-    string baseURL = "https://api.stackexchange.com/2.3/search/advanced?order=desc&sort=activity&q=";
+    string baseURL = "https://api.stackexchange.com/2.3/search/advanced?";
+    string encodedQuery = curl_easy_escape(nullptr, userQuestion.c_str(), userQuestion.length());
+    
     for(int i = 0; i < userQuestion.length(); i++)
     {
         if(userQuestion[i] != 32) // while character is not a space 
@@ -129,12 +131,15 @@ string constructQuestion(string & userQuestion)
         }
 
     } 
-    // this is key generated from stack over inorder to access the stack overflow api 
-    string key = "OUgS5vV1jD7kdtN8*nYZKg((";
-    baseURL += "&key=" + key;
+    // set Paramaters 
+    baseURL += "advanced?order=desc&sort=activity&q=";
 
     // Append the site parameter (e.g., Stack Overflow)
     baseURL += "&site=stackoverflow";
+
+    // this is key generated from Stack Exchange, this key is what enable us to use the stack over flow API 
+    string key = "OUgS5vV1jD7kdtN8*nYZKg((";
+    baseURL += "&key=" + key;
     
     cout << "Constructed Stirng: " << baseURL << endl;
     return baseURL;
