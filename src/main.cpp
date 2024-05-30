@@ -28,7 +28,9 @@ using namespace std;
 
 void printMenu();
 void search(const string& url);
+void printData(string readBuffer);
 string constructQuestion(string &userQuestion);
+
 
 /*
     Write_callBack: Handles writing received data 
@@ -87,7 +89,7 @@ void search(const string& url)
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
         
         // Curl Option 2: 
-        // here we are specifiying that we pass information url to a variable which in the3rd paramater we specify variable to store
+        // here we are specifiying that we pass information url to a variable which in third paramater we specify variable to store
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
 
         // After we set up options for CURL we Perform the request below 
@@ -101,8 +103,7 @@ void search(const string& url)
         else 
         {
             // Print the response data
-            cout << "Response Data:" << endl;
-            cout << readBuffer << endl;
+            printData(readBuffer);
         }
 
         // Cleanup
@@ -117,22 +118,12 @@ string constructQuestion(string & userQuestion)
 {
     //this base url is to need to access stack over API
     string baseURL = "https://api.stackexchange.com/2.3/search/advanced?";
+
+    // we are encoding the user query 
     string encodedQuery = curl_easy_escape(nullptr, userQuestion.c_str(), userQuestion.length());
     
-    for(int i = 0; i < userQuestion.length(); i++)
-    {
-        if(userQuestion[i] != 32) // while character is not a space 
-            baseURL += userQuestion[i];
-        
-        
-        else if(userQuestion[i] == 32 && (userQuestion[i+1] != 32 ))
-        {
-            baseURL += "+";
-        }
-
-    } 
     // set Paramaters 
-    baseURL += "advanced?order=desc&sort=activity&q=";
+    baseURL += "order=desc&sort=relevance&q="+ encodedQuery;
 
     // Append the site parameter (e.g., Stack Overflow)
     baseURL += "&site=stackoverflow";
@@ -143,4 +134,18 @@ string constructQuestion(string & userQuestion)
     
     cout << "Constructed Stirng: " << baseURL << endl;
     return baseURL;
+}
+
+void printData(string readBuffer)
+{
+    //cout << "Response Data:" << endl;
+    //cout << readBuffer << endl;
+    auto json = nlohmann::json::parse(readBuffer);
+    
+    for(const auto& item: json["items"])
+    {
+        cout << "Title: " << item["title"] << endl;
+        cout << "Creation Date: " << item["creation_date"] << endl;
+    }
+
 }
