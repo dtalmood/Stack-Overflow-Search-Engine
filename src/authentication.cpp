@@ -29,5 +29,6 @@ void authenticator::newMember()
         cin >> userName;
         cout << "Password: " << endl;
         cin >> password;
+        // check if username exits 
     }while(validUsername);
 }
