@@ -1,2 +1,3 @@
-#igore files generates in build folder
+#Build is where we store files after running cmake .. 
+# Adding this line means that anything inside of buuild will not be registered on GITHUB
 /build
