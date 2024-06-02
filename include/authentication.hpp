@@ -3,17 +3,14 @@
 #include <string>
 using namespace std;
 
-class authenticator 
+class authentication 
 {
-    private:
-    string username;
-    string password;
-
     public: 
-    void login();
-    void logout();
-    void menu();
-    void newMember();
+    static int menu();
+    static void login();
+    static void logout();
+    static void newMember();
+    static void forgotPassword();
 };
 
 

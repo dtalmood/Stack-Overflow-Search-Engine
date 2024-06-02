@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add include directories
-include_directories(include)
+include_directories(include) 
 include_directories("/opt/homebrew/include/mongocxx/v_noabi/")
 include_directories("/opt/homebrew/include/bsoncxx/v_noabi/")
 include_directories("/opt/homebrew/include/bsoncxx/v_noabi/bsoncxx/third_party/mnmlstc")
@@ -18,7 +18,7 @@ find_library(MONGOCXX_LIB mongocxx HINTS "/opt/homebrew/lib")
 find_library(BSONCXX_LIB bsoncxx HINTS "/opt/homebrew/lib")
 
 # Create an executable named MyProject which will run main.cpp
-add_executable(MyProject src/main.cpp)
+add_executable(MyProject src/main.cpp src/authentication.cpp)
 
 # Link MongoDB libraries
 target_link_libraries(MyProject ${MONGOCXX_LIB} ${BSONCXX_LIB})

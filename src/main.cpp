@@ -2,14 +2,7 @@
 #include <iomanip>
 #include <curl/curl.h> 
 #include "json.hpp"
-#include <authentication.hpp>
-// MONGO DB DRIVERS
-#include <bsoncxx/builder/basic/document.hpp>
-#include <bsoncxx/json.hpp>
-#include <mongocxx/client.hpp>
-#include <mongocxx/instance.hpp>
-#include <mongocxx/stdx.hpp>
-#include <mongocxx/uri.hpp>
+#include "authentication.hpp" // Corrected include
 
 
 /*  
@@ -64,12 +57,33 @@ size_t write_callback(char *ptr, size_t size, size_t nmemb, string *userdata) {
 int main()
 {
     printMenu();
-    cout << "Type your question and once done press enter to search. " << endl;
-    cout << "Question: ";
-    string userQuestion;
-    getline(cin, userQuestion);
-    string constructedString = constructQuestion(userQuestion);
-    search(constructedString);
+    int result = authentication::menu();
+    switch(result)
+    {
+        case 1:
+            authentication::login();
+            break;
+        
+        case 2:
+            authentication::newMember();
+            break;
+
+        case 3:
+            authentication::forgotPassword();
+            break;
+        
+        case 4: 
+            cout << "Good bye" << endl;
+            exit(0);
+            break;
+
+    }
+    // cout << "Type your question and once done press enter to search. " << endl;
+    // cout << "Question: ";
+    // string userQuestion;
+    // getline(cin, userQuestion);
+    // string constructedString = constructQuestion(userQuestion);
+    // search(constructedString);
     return 0;
 }
 
