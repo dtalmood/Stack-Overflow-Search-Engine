@@ -3,6 +3,8 @@
 #include <curl/curl.h> 
 #include "json.hpp"
 #include <authentication.hpp>
+#include <client.hpp>
+
 /*  
     Notes:
         1. libcurl: This library handles netowrk operations specifically for 
