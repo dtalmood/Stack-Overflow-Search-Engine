@@ -4,13 +4,14 @@ cmake_minimum_required(VERSION 3.10)
 project(MyProject)
 
 # Set C++ standard
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add include directories
 include_directories(include)
 include_directories("/opt/homebrew/include/mongocxx/v_noabi/")
 include_directories("/opt/homebrew/include/bsoncxx/v_noabi/")
+include_directories("/opt/homebrew/include/bsoncxx/v_noabi/bsoncxx/third_party/mnmlstc")
 
 # Find and link MongoDB C++ driver libraries
 find_library(MONGOCXX_LIB mongocxx HINTS "/opt/homebrew/lib")

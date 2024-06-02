@@ -1,3 +1,0 @@
-/Users/dylantalmood/Documents/GitHub/Stack-Surfer/src/CMakeFiles/MyProject.dir
-/Users/dylantalmood/Documents/GitHub/Stack-Surfer/src/CMakeFiles/edit_cache.dir
-/Users/dylantalmood/Documents/GitHub/Stack-Surfer/src/CMakeFiles/rebuild_cache.dir

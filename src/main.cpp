@@ -3,7 +3,9 @@
 #include <curl/curl.h> 
 #include "json.hpp"
 #include <authentication.hpp>
-#include <client.hpp>
+// MONGO DB DRIVERS
+#include <mongocxx/client.hpp>
+
 
 /*  
     Notes:
@@ -20,10 +22,16 @@
         3. C-Make: whne we have alot of stuff that need to consitnelty write to the command line
         we have cmake so that we cna run it and automatily runs build files 
 
-        To Build Project to Run: enure termins is in SRC folder 
-            2. cmake ..  (we are in src folder )
+        To Build Project to Run: enure termins is in SRC folder     
+            1. mkdir build 
+            2. cd mkdir 
+            3. cmake ..  (we are now in mkdir directory)
             4. make
             5. ./MyProject
+
+        to rerun project    
+            1. rm -r build 
+            2. redow steps above!
 
 */
 
