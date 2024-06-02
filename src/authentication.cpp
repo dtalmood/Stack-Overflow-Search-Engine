@@ -1,34 +1,70 @@
 #include <authentication.hpp>
 #include <iostream>
+// MONGO DB DRIVERS
+#include <bsoncxx/builder/basic/document.hpp>
+#include <bsoncxx/json.hpp>
+#include <mongocxx/client.hpp>
+#include <mongocxx/instance.hpp>
+#include <mongocxx/stdx.hpp>
+#include <mongocxx/uri.hpp>
+using namespace std;
 
-void authenticator::login()
+
+int authentication::menu()
 {
-    bool invalid = true;
+    cout << "1: Login " << endl;
+    cout << "2: New Member" << endl;
+    cout << "3. Forgot Password" << endl;
+    cout << "4. Exit" << endl;
     
-}
-void authenticator::logout()
-{
-
-}
-
-void authenticator::menu()
-{
-    cout << "1. Login " << endl;
-    cout << "2. New Login" << endl;
-}
-
-void authenticator::newMember()
-{
-    bool validUsername = true;
-    string userName;
-    string password;
-    
+    bool invalid = false;
+    int userInput;
     do
     {
-        cout << "UserName: " << endl;
-        cin >> userName;
-        cout << "Password: " << endl;
-        cin >> password;
-        // check if username exits 
-    }while(validUsername);
+        cout << "Input: ";
+        cin >> userInput;
+        
+        // Detcts whether the value entered fits the value defined in the variable.
+        // if cin.fail is true this means the instream is  broken
+        if(cin.fail())
+        {
+            cout << "Error: Please enter a integer" << endl;
+            // repairs input stream
+            cin.clear(); 
+            // clears the buffer, without this  cin >> userinput will always the latest value we entered 
+            cin.ignore(std::numeric_limits<int>::max(),'\n'); 
+            invalid = true;
+        }
+        else if(userInput <= 0 && userInput >= 5) // checks if input is 
+        {
+            cout << "Error: Please enter a integer between 1 and 4" << endl;
+            invalid = true;
+        }
+        else   
+            invalid = false;
+        
+
+    }while(invalid);
+    
+    return userInput;
+}   
+
+
+void authentication::login()
+{
+    
+    
+}
+void authentication::logout()
+{
+
+}
+
+void authentication::newMember()
+{
+}
+
+void authentication::forgotPassword()
+{
+
 }

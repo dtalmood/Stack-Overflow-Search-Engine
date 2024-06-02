@@ -1,20 +1,30 @@
 cmake_minimum_required(VERSION 3.10)
 
-# We define our project 
+# Define the project
 project(MyProject)
 
 # Set C++ standard
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Add include directory thiks is in our main.cpp file 
-include_directories(include)
+# Add include directories
+include_directories(include) 
+include_directories("/opt/homebrew/include/mongocxx/v_noabi/")
+include_directories("/opt/homebrew/include/bsoncxx/v_noabi/")
+include_directories("/opt/homebrew/include/bsoncxx/v_noabi/bsoncxx/third_party/mnmlstc")
 
-# Here we are creating an executable named MyProject which will run main.cpp 
-add_executable(MyProject src/main.cpp)
+# Find and link MongoDB C++ driver libraries
+find_library(MONGOCXX_LIB mongocxx HINTS "/opt/homebrew/lib")
+find_library(BSONCXX_LIB bsoncxx HINTS "/opt/homebrew/lib")
 
-# Searches for the libcurl library.
+# Create an executable named MyProject which will run main.cpp
+add_executable(MyProject src/main.cpp src/authentication.cpp)
+
+# Link MongoDB libraries
+target_link_libraries(MyProject ${MONGOCXX_LIB} ${BSONCXX_LIB})
+
+# Searches for the libcurl library
 find_package(CURL REQUIRED)
 
-#  Links the libcurl library to the executable. 
+# Links the libcurl library to the executable
 target_link_libraries(MyProject CURL::libcurl)
