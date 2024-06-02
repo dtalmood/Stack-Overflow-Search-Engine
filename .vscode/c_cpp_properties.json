@@ -6,8 +6,7 @@
                 "${workspaceFolder}/**",
                 "/opt/homebrew/include/mongocxx/v_noabi/",
                 "/opt/homebrew/include/bsoncxx/v_noabi/",
-                "/opt/homebrew/include/bsoncxx/v_noabi/bsoncxx/third_party/mnmlstc",
-                "/opt/homebrew/include/bsoncxx/v_noabi/bsoncxx/third_party/mnmlstc/core"
+                "/opt/homebrew/Cellar/mongo-cxx-driver/3.10.1/include/bsoncxx/v_noabi/bsoncxx/third_party/mnmlstc"
             ],
             "defines": [],
             "macFrameworkPath": [
