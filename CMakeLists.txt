@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add include directories
+#This only tells CMake where to look for header files
 include_directories(include) 
 include_directories("/opt/homebrew/include/mongocxx/v_noabi/")
 include_directories("/opt/homebrew/include/bsoncxx/v_noabi/")

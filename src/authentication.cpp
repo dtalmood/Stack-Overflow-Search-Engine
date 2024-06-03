@@ -52,9 +52,21 @@ int authentication::menu()
 
 void authentication::login()
 {
-    
+    string username;
+    string password;
+    bool invalid = true;
+    do
+    {
+       cout << "Username: ";
+       cin >> username;
+       cout << "Password: ";
+       cin >> password;
+        // check our centeral database if username exists 
+        
+    } while(invalid);
     
 }
+
 void authentication::logout()
 {
 
@@ -67,4 +79,8 @@ void authentication::newMember()
 void authentication::forgotPassword()
 {
 
+}
+void authentication::encryptPassword()
+{
+    
 }

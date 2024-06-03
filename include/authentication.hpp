@@ -11,6 +11,7 @@ class authentication
     static void logout();
     static void newMember();
     static void forgotPassword();
+    static void encryptPassword();
 };
 
 

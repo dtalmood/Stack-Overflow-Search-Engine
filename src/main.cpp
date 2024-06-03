@@ -3,7 +3,15 @@
 #include <curl/curl.h> 
 #include "json.hpp"
 #include "authentication.hpp" // Corrected include
-
+#include <mongocxx/client.hpp>
+#include <bsoncxx/builder/stream/document.hpp>
+#include <bsoncxx/json.hpp>
+#include <mongocxx/uri.hpp>
+#include <mongocxx/instance.hpp>
+#include <algorithm>
+#include <iostream>
+#include <vector>
+using namespace std;
 
 /*  
     Notes:
@@ -38,6 +46,8 @@ using namespace std;
 void printMenu();
 void search(const string& url);
 void printData(string readBuffer);
+void viewMongoDBServer();
+void searchDataInMongoDBServer();
 string constructQuestion(string &userQuestion);
 
 
@@ -57,27 +67,29 @@ size_t write_callback(char *ptr, size_t size, size_t nmemb, string *userdata) {
 int main()
 {
     printMenu();
-    int result = authentication::menu();
-    switch(result)
-    {
-        case 1:
-            authentication::login();
-            break;
+    //viewMongoDBServer();
+    searchDataInMongoDBServer();
+    // int result = authentication::menu();
+    // switch(result)
+    // {
+    //     case 1:
+    //         authentication::login();
+    //         break;
         
-        case 2:
-            authentication::newMember();
-            break;
+    //     case 2:
+    //         authentication::newMember();
+    //         break;
 
-        case 3:
-            authentication::forgotPassword();
-            break;
+    //     case 3:
+    //         authentication::forgotPassword();
+    //         break;
         
-        case 4: 
-            cout << "Good bye" << endl;
-            exit(0);
-            break;
+    //     case 4: 
+    //         cout << "Good bye" << endl;
+    //         exit(0);
+    //         break;
 
-    }
+    // }
     // cout << "Type your question and once done press enter to search. " << endl;
     // cout << "Question: ";
     // string userQuestion;
@@ -87,6 +99,60 @@ int main()
     return 0;
 }
 
+void viewMongoDBServer()
+{
+    cout <<"Check Mongo Connection" << endl;
+    // Establish an instance of mongocxx 
+    mongocxx::instance instance{};
+
+    // Connect to MongoDB server 
+    mongocxx::uri uri("mongodb://localhost:27017");
+    mongocxx::client client(uri);
+    
+    // Access database UserData
+    mongocxx::database db = client["UserData"];
+
+    // Access the specific collection
+    mongocxx::collection collection = db["Users"];
+
+    // Query the collection and iterate over the documents
+    auto cursor = collection.find({});
+    
+    for (auto&& doc : cursor) {
+        // Print each document
+        std::cout << bsoncxx::to_json(doc) << std::endl;
+    }
+}
+
+void searchDataInMongoDBServer()
+{
+    cout << "Search MongoDB Connection" << endl;
+
+    // establish instance of mongocxx
+    mongocxx::instance instance{};
+
+    // conect to mongo DB server as a client 
+    mongocxx::uri uri("mongodb://localhost:27017");
+    mongocxx::client client(uri);
+
+    // Lets access a specific data base 
+    mongocxx::database db = client["UserData"];
+
+    // Now that we have access to the data base lets access a specific collectin 
+    mongocxx::collection collection = db["Users"];
+
+    // we now have access to the collection insdie of our database 
+    findDocument(collection, "username", "dtalmood");
+}
+
+void findDocument(mongocxx::collection& collection, const string& key, const string& value) 
+{
+    auto filter = bsoncxx::builder::stream::document{} << key << value << bsoncxx::builder::stream::finalize;
+    auto cursor = collection.find(filter.view());
+    for (auto&& doc : cursor) {
+        cout << bsoncxx::to_json(doc) << endl;
+    }
+}
 void printMenu()
 {
     int titleWidth = 40;
