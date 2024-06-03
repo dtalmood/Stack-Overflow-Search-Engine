@@ -61,6 +61,7 @@ void authentication::login()
        cin >> username;
        cout << "Password: ";
        cin >> password;
+       invalid = false;
         // check our centeral database if username exists 
         
     } while(invalid);
@@ -74,10 +75,44 @@ void authentication::logout()
 
 void authentication::newMember()
 {
+    string username;
+    string password;
+    string email;
+    bool invalid = true;
+    do
+    {
+       cout << "Username: ";
+       cin >> username;
+       cout << "Password: ";
+       cin >> password;
+       cout << "Email: ";
+       cin >> email;
+       invalid = false;
+        // check our centeral database if username exists 
+        
+    } while(invalid);
 }
 
 void authentication::forgotPassword()
 {
+    string email;
+    string code;
+    bool invalid = true;
+    do
+    {
+       cout << "Enter your email below\nEmail:";
+       cin >> email ;
+        // TODO: Check if The Email exsits in our data base 
+       
+        // TODO: Generate a random code 9 digit code       
+       
+        cout << "Code Sent to Email Address\nCode:" << endl;
+        cin  >> code;
+
+        // TODO: Check if the code generated mathces what the user input 
+        
+        
+    } while(invalid);
 
 }
 void authentication::encryptPassword()
