@@ -90,6 +90,7 @@ void authentication::newMember()
        invalid = false;
         // check our centeral database if username exists 
         
+        
     } while(invalid);
 }
 
@@ -111,6 +112,7 @@ void authentication::forgotPassword()
 
         // TODO: Check if the code generated mathces what the user input 
         
+        invalid = false;
         
     } while(invalid);
 
