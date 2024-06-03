@@ -91,7 +91,8 @@ void viewMongoDBServer(mongocxx::database& db)
     printCollection(collection);
 }
 
-void searchDataInMongoDBServer(mongocxx::database& db) {
+void searchDataInMongoDBServer(mongocxx::database& db) 
+{
     cout << "Search MongoDB Connection" << endl;
     mongocxx::collection collection = db["Users"];
     findDocument(collection, "username", "dtalmood");

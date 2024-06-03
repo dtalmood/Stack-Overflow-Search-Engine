@@ -86,7 +86,6 @@ void authentication::login(mongocxx::database& db)
        cin >> password;
        invalid = false;
         // check our centeral database if username exists 
-    
         
     } while(invalid);
     
@@ -97,27 +96,24 @@ void authentication::logout()
 
 }
 
-void authentication::newMember(mongocxx::database& db)
-{
-
+void authentication::newMember(mongocxx::database& db) {
     string username;
     string password;
     string email;
-    bool invalid = true;
-    do
-    {
+    bool invalidUser = false;
+    bool invalidEmail = false;
+    do {
        cout << "Username: ";
        cin >> username;
        cout << "Password: ";
        cin >> password;
        cout << "Email: ";
        cin >> email;
-       invalid = false;
-        // Check 1: Check is Username has already been taken 
-        
-        
-        
-    } while(invalid);
+       // Check 1: Username has already been taken 
+       invalidUser = !checkIfDataExists(db, username, true);
+       // Check 2: Email already exists in database 
+       invalidEmail = !checkIfDataExists(db, email, false);
+    } while(invalidUser || invalidEmail);
 }
 
 void authentication::forgotPassword(mongocxx::database& db)
@@ -148,3 +144,32 @@ void authentication::encryptPassword()
     
 }
 
+bool authentication::checkIfDataExists(const mongocxx::database& db, const string& data, bool type)
+{
+   
+    mongocxx::collection collection = db["Users"];
+    if(type) // check if username exists in our collection 
+    {
+        auto filter = make_document(kvp("username", data));
+        auto cursor = collection.find(filter.view());
+        // if cursor.begin DOES NOT Equal cursor.end means username was found inside one of the documents 
+        if(cursor.begin() != cursor.end())
+        {
+            cout << "Username is already in use\n" << endl;
+            return false;
+        }
+    }
+    else // check if email already exists in our colelction
+    {
+        auto filter = make_document(kvp("email", data));
+        auto cursor = collection.find(filter.view());
+        // if cursor Does not Equal End that means email was found inside one of the documents 
+        if(cursor.begin() != cursor.end())// did not find username 
+        {
+            cout << "Email is already in use\n" << endl;
+            return false;
+        }
+        
+    }
+    return true;
+}

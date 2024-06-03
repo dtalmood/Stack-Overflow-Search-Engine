@@ -24,7 +24,7 @@ class authentication
     static void newMember(mongocxx::database& db);
     static void forgotPassword(mongocxx::database& db);
     static void encryptPassword();
-    
+    static bool checkIfDataExists(const mongocxx::database& db, const string& data, bool type); 
 };
 
 
