@@ -1,13 +1,34 @@
-#include <authentication.hpp>
+
+
+// Built in libraries 
 #include <iostream>
-// MONGO DB DRIVERS
-#include <bsoncxx/builder/basic/document.hpp>
-#include <bsoncxx/json.hpp>
+#include <iomanip>
+#include <algorithm>
+#include <vector>
+
+// My Libraries 
+#include "authentication.hpp"
+
+// 3rd Party Libraries 
+#include "json.hpp"
+
+//Curl: 
+#include <curl/curl.h>
+
+// Mongocxx: 
 #include <mongocxx/client.hpp>
-#include <mongocxx/instance.hpp>
-#include <mongocxx/stdx.hpp>
 #include <mongocxx/uri.hpp>
+#include <mongocxx/instance.hpp>
+
+// BSONCXX: Additional includes for BSON
+#include <bsoncxx/builder/stream/document.hpp>
+#include <bsoncxx/builder/basic/document.hpp>
+#include <bsoncxx/builder/basic/kvp.hpp>
+#include <bsoncxx/json.hpp>
+
 using namespace std;
+using bsoncxx::builder::basic::kvp;
+using bsoncxx::builder::basic::make_document;
 
 
 int authentication::menu()
@@ -50,8 +71,10 @@ int authentication::menu()
 }   
 
 
-void authentication::login()
+void authentication::login(mongocxx::database& db)
 {
+    // Look insdie of colleciton users insode of Dur data base which has all our documents
+    mongocxx::collection collection = db["Users"]; 
     string username;
     string password;
     bool invalid = true;
@@ -63,6 +86,7 @@ void authentication::login()
        cin >> password;
        invalid = false;
         // check our centeral database if username exists 
+    
         
     } while(invalid);
     
@@ -73,8 +97,9 @@ void authentication::logout()
 
 }
 
-void authentication::newMember()
+void authentication::newMember(mongocxx::database& db)
 {
+
     string username;
     string password;
     string email;
@@ -88,13 +113,14 @@ void authentication::newMember()
        cout << "Email: ";
        cin >> email;
        invalid = false;
-        // check our centeral database if username exists 
+        // Check 1: Check is Username has already been taken 
+        
         
         
     } while(invalid);
 }
 
-void authentication::forgotPassword()
+void authentication::forgotPassword(mongocxx::database& db)
 {
     string email;
     string code;
@@ -121,3 +147,4 @@ void authentication::encryptPassword()
 {
     
 }
+

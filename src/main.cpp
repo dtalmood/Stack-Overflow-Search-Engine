@@ -61,15 +61,15 @@ int main()
     switch(result)
     {
         case 1:
-            authentication::login();
+            authentication::login(db);
             break;
         
         case 2:
-            authentication::newMember();
+            authentication::newMember(db);
             break;
 
         case 3:
-            authentication::forgotPassword();
+            authentication::forgotPassword(db);
             break;
         
         case 4: 
@@ -78,12 +78,14 @@ int main()
             break;
 
     }
-    viewMongoDBServer(db);
-    searchDataInMongoDBServer(db);
+
+    //viewMongoDBServer(db);
+    //searchDataInMongoDBServer(db);
     return 0;
 }
 
-void viewMongoDBServer(mongocxx::database& db) {
+void viewMongoDBServer(mongocxx::database& db) 
+{
     cout << "Check Mongo Connection" << endl;
     mongocxx::collection collection = db["Users"]; // we look at collection "Users"
     printCollection(collection);
