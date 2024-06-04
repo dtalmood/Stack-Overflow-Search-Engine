@@ -37,6 +37,7 @@ void viewMongoDBServer(mongocxx::database& db);
 void searchDataInMongoDBServer(mongocxx::database& db);
 void findDocument(mongocxx::collection& collection, const string& key, const string& value);
 void printCollection(mongocxx::collection& collection);
+void search();
 string constructQuestion(string &userQuestion);
 
 size_t write_callback(char *ptr, size_t size, size_t nmemb, string *userdata) {
@@ -81,7 +82,7 @@ int main()
 
         }
     }
-   
+    search();
     return 0;
 }
 
@@ -162,4 +163,37 @@ void findDocument(mongocxx::collection& collection, const string& key, const str
     for (auto&& doc : cursor) {
         cout << bsoncxx::to_json(doc) << endl;
     }
+}
+
+void search()
+{
+    bool done = false;
+    do
+    {
+        printLocation("Stack Surfer");
+        cout << "Type your question and once done press enter to search. " << endl;
+        cout << "Question: ";
+        string userQuestion;
+        getline(cin, userQuestion);
+        string constructedString = constructQuestion(userQuestion);
+        search(constructedString);
+        cout << "Enter Done when your ready to search for new question " << endl;
+        string info;
+        getline(cin,info);
+        while(info != "done")
+            getline(cin,info);
+            
+    } while (!done);
+    
+
+}
+void printLocation(string title)
+{
+    system("clear");
+    int titleWidth = 40;
+    int titleLength = 12;
+    int leftPadding = (titleWidth - titleLength) / 2;
+    cout << setw(titleWidth) << setfill('=') << "" << endl;
+    cout << setw(leftPadding) << setfill(' ') << "" << title << setw(titleLength) << setfill(' ') << "" << endl;
+    cout << setw(titleWidth) << setfill('=') << "" << endl;
 }
