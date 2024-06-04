@@ -57,6 +57,9 @@ int main()
     // we establish that we want to look at the Database Labled "UserData" 
     mongocxx::database db = client["UserData"]; 
     
+    // Initialize CURL globally
+    curl_global_init(CURL_GLOBAL_DEFAULT);
+
     bool done = false;
     while(!done)
     {
@@ -83,7 +86,9 @@ int main()
 
         }
     }
+
     searchEngine();
+    curl_global_cleanup();
     return 0;
 }
 
@@ -107,7 +112,6 @@ void search(const string& url)
     CURL *curl;
     CURLcode res;
     string readBuffer;
-    curl_global_init(CURL_GLOBAL_DEFAULT);
     curl = curl_easy_init();
     if (curl) {
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
@@ -121,7 +125,6 @@ void search(const string& url)
         }
         curl_easy_cleanup(curl);
     }
-    curl_global_cleanup();
 }
 
 string constructQuestion(string &userQuestion) 
@@ -185,9 +188,11 @@ void searchEngine()
     {
         printLocation("Stack Surfer");
         cout << "Type your question and once done press enter to search. " << endl;
-        cout << "Entered Search Engine" << endl;
+         // Clear the input buffer: 
+         // cin >> some_variable reads up to the next whitespace, the newline character (\n) from pressing Enter remains in the input buffer
         cout << "Question:";
         string userQuestion;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         getline(cin, userQuestion);
         string constructedString = constructQuestion(userQuestion);
         search(constructedString);
@@ -197,7 +202,7 @@ void searchEngine()
         while(check != "done")
         {
             getline(cin,check);
-        }
+        }   
     }while(!done);
     
 
