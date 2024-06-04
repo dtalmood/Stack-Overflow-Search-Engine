@@ -31,7 +31,6 @@ using namespace std;
 using bsoncxx::builder::basic::kvp;
 using bsoncxx::builder::basic::make_document;
 
-void printStackSurfer(); // 
 void search(const string& url);
 void printData(string readBuffer);
 void viewMongoDBServer(mongocxx::database& db);
@@ -53,34 +52,36 @@ int main()
     mongocxx::uri uri("mongodb://localhost:27017"); 
     // we connect to our server 
     mongocxx::client client(uri);
-    // we establish taht we want to look at the Database Labled "UserData" 
+    // we establish that we want to look at the Database Labled "UserData" 
     mongocxx::database db = client["UserData"]; 
     
-    printStackSurfer();
-    int result = authentication::menu();
-    switch(result)
+    bool done = false;
+    while(!done)
     {
-        case 1:
-            authentication::login(db);
-            break;
-        
-        case 2:
-            authentication::newMember(db);
-            break;
+         system("clear");
+         int result = authentication::menu();
+         switch(result)
+        {
+            case 1:
+                done = authentication::login(db);
+                break;
+            
+            case 2:
+                authentication::newMember(db);
+                break;
 
-        case 3:
-            authentication::forgotPassword(db);
-            break;
-        
-        case 4: 
-            cout << "Good bye" << endl;
-            exit(0);
-            break;
+            case 3:
+                authentication::forgotPassword(db);
+                break;
+            
+            case 4: 
+                cout << "Good bye" << endl;
+                exit(0);
+                break;
 
+        }
     }
-
-    //viewMongoDBServer(db);
-    //searchDataInMongoDBServer(db);
+   
     return 0;
 }
 
@@ -98,15 +99,6 @@ void searchDataInMongoDBServer(mongocxx::database& db)
     findDocument(collection, "username", "dtalmood");
 }
 
-void printStackSurfer() 
-{
-    int titleWidth = 40;
-    int titleLength = 12;
-    int leftPadding = (titleWidth - titleLength) / 2;
-    cout << setw(titleWidth) << setfill('=') << "" << endl;
-    cout << setw(leftPadding) << setfill(' ') << "" << "STACK SURFER" << setw(titleLength) << setfill(' ') << "" << endl;
-    cout << setw(titleWidth) << setfill('=') << "" << endl;
-}
 
 void search(const string& url)
 {

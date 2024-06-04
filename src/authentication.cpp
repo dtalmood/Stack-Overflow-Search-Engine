@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <algorithm>
 #include <vector>
+#include <stdlib.h>
 
 // My Libraries 
 #include "authentication.hpp"
@@ -15,16 +16,6 @@
 //Curl: 
 #include <curl/curl.h>
 
-// Mongocxx: 
-#include <mongocxx/client.hpp>
-#include <mongocxx/uri.hpp>
-#include <mongocxx/instance.hpp>
-
-// BSONCXX: Additional includes for BSON
-#include <bsoncxx/builder/stream/document.hpp>
-#include <bsoncxx/builder/basic/document.hpp>
-#include <bsoncxx/builder/basic/kvp.hpp>
-#include <bsoncxx/json.hpp>
 
 using namespace std;
 using bsoncxx::builder::basic::kvp;
@@ -33,6 +24,7 @@ using bsoncxx::builder::basic::make_document;
 
 int authentication::menu()
 {
+    printLocation("Stack Surfer");
     cout << "1: Login " << endl;
     cout << "2: New Member" << endl;
     cout << "3. Forgot Password" << endl;
@@ -70,24 +62,47 @@ int authentication::menu()
     return userInput;
 }   
 
-
-void authentication::login(mongocxx::database& db)
+void authentication::printLocation(string title)
 {
-    // Look insdie of colleciton users insode of Dur data base which has all our documents
-    mongocxx::collection collection = db["Users"]; 
+    int titleWidth = 40;
+    int titleLength = 12;
+    int leftPadding = (titleWidth - titleLength) / 2;
+    cout << setw(titleWidth) << setfill('=') << "" << endl;
+    cout << setw(leftPadding) << setfill(' ') << "" << title << setw(titleLength) << setfill(' ') << "" << endl;
+    cout << setw(titleWidth) << setfill('=') << "" << endl;
+}
+
+bool authentication::login(mongocxx::database& db)
+{
+     mongocxx::collection collection = db["Users"];
+    system("clear");
+    printLocation("Login");
     string username;
     string password;
-    bool invalid = true;
-    do
+    
+    bool invalidLogin = false;
+
+    cout << "To return to menu type: \"exit\" to" << endl;
+    do 
     {
        cout << "Username: ";
        cin >> username;
-       cout << "Password: ";
-       cin >> password;
-       invalid = false;
-        // check our centeral database if username exists 
-        
-    } while(invalid);
+       if (username == "exit") {
+            cout << "Returning to menu..." << endl;
+            return false;
+        }
+
+        cout << "Password: ";
+        cin >> password;
+        if(password == "exit") {
+            cout << "Returning to menu..." << endl;
+            return false;
+        }
+       invalidLogin = findLogin(collection, "username",username,"password",password); 
+       if(!invalidLogin)
+            cerr << "Username or Password is incorrect: " << endl;
+
+    } while(!invalidLogin);
     
 }
 
@@ -96,24 +111,49 @@ void authentication::logout()
 
 }
 
-void authentication::newMember(mongocxx::database& db) {
+void authentication::newMember(mongocxx::database& db) 
+{
+    system("clear");
+    printLocation("New Member");
     string username;
-    string password;
     string email;
+    string password;
+    
     bool invalidUser = false;
     bool invalidEmail = false;
-    do {
+    cout << "To return to menu type: \"exit\" to" << endl;
+    do 
+    {
        cout << "Username: ";
        cin >> username;
-       cout << "Password: ";
-       cin >> password;
-       cout << "Email: ";
-       cin >> email;
+       if (username == "exit") {
+            cout << "Returning to menu..." << endl;
+            return;
+        }
+
+        cout << "Password: ";
+        cin >> password;
+        if(password == "exit") {
+            cout << "Returning to menu..." << endl;
+            return;
+        }
+
+        cout << "Email: ";
+        cin >> email;
+        if (email == "exit") {
+            cout << "Returning to menu..." << endl;
+            return;
+        }
+        
        // Check 1: Username has already been taken 
        invalidUser = !checkIfDataExists(db, username, true);
        // Check 2: Email already exists in database 
        invalidEmail = !checkIfDataExists(db, email, false);
     } while(invalidUser || invalidEmail);
+    
+    mongocxx::collection collection = db["Users"];
+    insertDocument(collection, createDocument({ {"username", username}, {"password", password}, {"email", email}}));
+    
 }
 
 void authentication::forgotPassword(mongocxx::database& db)
@@ -172,4 +212,35 @@ bool authentication::checkIfDataExists(const mongocxx::database& db, const strin
         
     }
     return true;
+}
+
+bool authentication::findLogin(mongocxx::collection& collection, const string& key1, const string& value1, const string& key2, const string& value2)
+{
+    // Create the query filter with two conditions
+    auto filter = bsoncxx::builder::stream::document{} << key1 << value1 << key2 << value2 << bsoncxx::builder::stream::finalize;
+
+    // Find documents matching the filter
+    auto cursor = collection.find(filter.view());
+
+    // we did not find doucment mathcing username and password
+    if(cursor.begin() == cursor.end())
+        return false;
+    
+    return true;
+}
+
+bsoncxx::document::value authentication::createDocument(const vector<pair<string, string>>& keyValues)
+{
+	bsoncxx::builder::stream::document document{};
+	for (auto& keyValue : keyValues)
+	{
+		document << keyValue.first << keyValue.second;
+	}
+	return document << bsoncxx::builder::stream::finalize;
+}
+
+// Insert a document into the given collection.
+void authentication::insertDocument(mongocxx::collection& collection, const bsoncxx::document::value& document)
+{
+    collection.insert_one(document.view());
 }
