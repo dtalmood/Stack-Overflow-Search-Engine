@@ -183,27 +183,34 @@ void printLocation(string title)
 void searchEngine()
 {
     bool done = false;
-    
+    // Before: I had this in my loop and this caused issues
+    // 1.  
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     do
     {
         printLocation("Stack Surfer");
-        cout << "Type your question and once done press enter to search. " << endl;
-         // Clear the input buffer: 
-         // cin >> some_variable reads up to the next whitespace, the newline character (\n) from pressing Enter remains in the input buffer
-        cout << "Question:";
+        cout << "Type your question and once done press enter to search." << endl;
+        
+        cout << "Question: ";
         string userQuestion;
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         getline(cin, userQuestion);
+
+        if (userQuestion.empty()) {
+            cout << "No input detected. Exiting search." << endl;
+            done = true;
+            continue;
+        }
+
         string constructedString = constructQuestion(userQuestion);
         search(constructedString);
-        cout << "Input Done to Search for another Question" << endl;
-        string check;
-        getline(cin,check);
-        while(check != "done")
-        {
-            getline(cin,check);
-        }   
-    }while(!done);
-    
 
+        cout << "Type 'done' to exit or press Enter to search for another question." << endl;
+        string check;
+        getline(cin, check);
+
+        if (check == "done") {
+            done = true;
+        }
+
+    } while (!done);
 }
