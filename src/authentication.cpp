@@ -14,11 +14,15 @@
 //Curl: 
 #include <curl/curl.h>
 
+// libbcrypt: this is a wrapper for Bcrypt encrption algorithm 
+#include "bcrypt/BCrypt.hpp"
+
 
 using namespace std;
-using bsoncxx::builder::basic::kvp;
-using bsoncxx::builder::basic::make_document;
-
+namespace bson = bsoncxx;
+using bson::builder::basic::kvp;
+using bson::builder::basic::make_document;
+using bson::v_noabi::document::view;
 
 int authentication::menu()
 {
@@ -96,17 +100,13 @@ bool authentication::login(mongocxx::database& db)
             cout << "Returning to menu..." << endl;
             return false;
         }
+    
        invalidLogin = findLogin(collection, "username",username,"password",password); 
        if(!invalidLogin)
             cerr << "Username or Password is incorrect: " << endl;
 
     } while(!invalidLogin);
     
-}
-
-void authentication::logout()
-{
-
 }
 
 void authentication::newMember(mongocxx::database& db) 
@@ -149,8 +149,9 @@ void authentication::newMember(mongocxx::database& db)
        invalidEmail = !checkIfDataExists(db, email, false);
     } while(invalidUser || invalidEmail);
     
+    string hash = BCrypt::generateHash(password);// this generates our hashed password
     mongocxx::collection collection = db["Users"];
-    insertDocument(collection, createDocument({ {"username", username}, {"password", password}, {"email", email}}));
+    insertDocument(collection, createDocument({ {"username", username}, {"password", hash}, {"email", email}}));
     
 }
 
@@ -177,11 +178,6 @@ void authentication::forgotPassword(mongocxx::database& db)
     } while(invalid);
 
 }
-void authentication::encryptPassword()
-{
-    
-}
-
 bool authentication::checkIfDataExists(const mongocxx::database& db, const string& data, bool type)
 {
    
@@ -214,16 +210,32 @@ bool authentication::checkIfDataExists(const mongocxx::database& db, const strin
 
 bool authentication::findLogin(mongocxx::collection& collection, const string& key1, const string& value1, const string& key2, const string& value2)
 {
-    // Create the query filter with two conditions
-    auto filter = bsoncxx::builder::stream::document{} << key1 << value1 << key2 << value2 << bsoncxx::builder::stream::finalize;
+    // we create a doucment we want to search for 
+    auto filter = bsoncxx::builder::stream::document{} << key1 << value1 << bsoncxx::builder::stream::finalize;
 
-    // Find documents matching the filter
+     //Checks The DataBase->Collection and sees if there is a document that has the username provided by the user 
     auto cursor = collection.find(filter.view());
 
-    // we did not find doucment mathcing username and password
+    // If our cursour = end that means it did not find anything  
     if(cursor.begin() == cursor.end())
         return false;
+
+    // if we pass if statment above this means we foudn a username that matches in our data base
+
+    // we point to beinging of said document  
+    auto doc = *cursor.begin();
     
+    // grab second value stored in document which is password 
+    auto hashedPassword = doc[key2];
+
+    // now hashed password is in form bsoncxx::types::value we need to convert it to a stirng 
+    string hashPasscodeString = hashedPassword.get_utf8().value.to_string();
+
+    auto result =  BCrypt::validatePassword(value2,hashPasscodeString);
+    
+    if(!result) // if reuslt = 0 (false) this means user did not input correct password 
+        return false;
+
     return true;
 }
 

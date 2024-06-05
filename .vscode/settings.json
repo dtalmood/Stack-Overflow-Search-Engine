@@ -49,6 +49,14 @@
         "typeinfo": "cpp",
         "locale": "cpp",
         "__locale": "cpp",
-        "ios": "cpp"
+        "ios": "cpp",
+        "bcrypt": "cpp",
+        "__bit_reference": "cpp",
+        "__hash_table": "cpp",
+        "__split_buffer": "cpp",
+        "__tree": "cpp",
+        "forward_list": "cpp",
+        "map": "cpp",
+        "span": "cpp"
     }
 }

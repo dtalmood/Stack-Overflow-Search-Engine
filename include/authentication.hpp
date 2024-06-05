@@ -21,10 +21,8 @@ class authentication
     static int menu();
     static void printLocation(string title);
     static bool login(mongocxx::database& db);
-    static void logout();
     static void newMember(mongocxx::database& db);
     static void forgotPassword(mongocxx::database& db);
-    static void encryptPassword();
     static bool checkIfDataExists(const mongocxx::database& db, const string& data, bool type); 
     static bool findLogin(mongocxx::collection& collection, const string& key1, const string& value1, const string& key2, const string& value2);
     static bsoncxx::document::value createDocument(const vector<pair<string, string>>& keyValues);
