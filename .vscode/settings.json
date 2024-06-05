@@ -49,6 +49,7 @@
         "typeinfo": "cpp",
         "locale": "cpp",
         "__locale": "cpp",
-        "ios": "cpp"
+        "ios": "cpp",
+        "bcrypt": "cpp"
     }
 }

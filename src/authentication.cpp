@@ -14,6 +14,9 @@
 //Curl: 
 #include <curl/curl.h>
 
+// libbcrypt: this is a wrapper for Bcrypt encrption algorithm 
+#include "bcrypt/BCrypt.hpp"
+
 
 using namespace std;
 using bsoncxx::builder::basic::kvp;
@@ -96,17 +99,15 @@ bool authentication::login(mongocxx::database& db)
             cout << "Returning to menu..." << endl;
             return false;
         }
-       invalidLogin = findLogin(collection, "username",username,"password",password); 
+       string hash = BCrypt::generateHash(password);
+       cout << "hash: " << hash << endl;
+       
+       invalidLogin = findLogin(collection, "username",username,"password",hash); 
        if(!invalidLogin)
             cerr << "Username or Password is incorrect: " << endl;
 
     } while(!invalidLogin);
     
-}
-
-void authentication::logout()
-{
-
 }
 
 void authentication::newMember(mongocxx::database& db) 
@@ -149,8 +150,9 @@ void authentication::newMember(mongocxx::database& db)
        invalidEmail = !checkIfDataExists(db, email, false);
     } while(invalidUser || invalidEmail);
     
+    string hash = BCrypt::generateHash(password);// this generates our hashed password
     mongocxx::collection collection = db["Users"];
-    insertDocument(collection, createDocument({ {"username", username}, {"password", password}, {"email", email}}));
+    insertDocument(collection, createDocument({ {"username", username}, {"password", hash}, {"email", email}}));
     
 }
 
@@ -177,11 +179,6 @@ void authentication::forgotPassword(mongocxx::database& db)
     } while(invalid);
 
 }
-void authentication::encryptPassword()
-{
-    
-}
-
 bool authentication::checkIfDataExists(const mongocxx::database& db, const string& data, bool type)
 {
    
