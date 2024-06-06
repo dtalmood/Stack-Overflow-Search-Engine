@@ -58,6 +58,8 @@
         "forward_list": "cpp",
         "map": "cpp",
         "span": "cpp",
-        "__node_handle": "cpp"
+        "__node_handle": "cpp",
+        "bitset": "cpp",
+        "valarray": "cpp"
     }
 }

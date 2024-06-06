@@ -44,13 +44,15 @@ void tag();
 void addTag();
 void removeTag();
 void removeAllTags();
+void printAllTags();
+bool searchTags(string tag);
 
 size_t write_callback(char *ptr, size_t size, size_t nmemb, string *userdata) {
     userdata->append(ptr, size * nmemb);
     return size * nmemb;
 }
 
-string tags[20]; // user can only have a maximum of 20 tags per quesiont 
+vector<string> TAGS; // user can only have a maximum of 20 tags per quesiont 
 
 int main() 
 {
@@ -240,10 +242,11 @@ void tag()
         system("clear");
         printLocation("Tag");
         cout << "Enter Below what you would like to do" << endl;
-        cout << "1: Add new Tag " << endl;
-        cout << "2: Remove Tag" << endl;
-        cout << "3. Delete all Tags" << endl;
-        cout << "4. Go back" << endl;
+        cout << "1. Add new Tag " << endl;
+        cout << "2. Print all Tags "<< endl;
+        cout << "3. Remove Tag" << endl;
+        cout << "4. Remove all Tags" << endl;
+        cout << "5. Go back" << endl;
         string userChoice = "0";
         cout << "Enter: ";
        
@@ -269,14 +272,18 @@ void tag()
                 break;
             
             case 2:
-                removeTag();
+                printAllTags();
                 break;
             
             case 3:
-                removeAllTags();
+                removeTag();
                 break;
             
             case 4:
+                removeAllTags();
+                break;
+            
+            case 5:
                 done = true;
                 break;
         }
@@ -288,16 +295,109 @@ void addTag()
 {
     system("clear");
     printLocation("Add Tag");
-
+    bool done = false;
+    string current = "";
+    cout << "Type and press enter to add tag Below" << endl;
+    cout << "Note: Upper/Lower case matters" << endl;
+    do
+    {
+        cout << "Tag: ";
+        getline(cin, current); 
+        if(current.empty()) // if empty this means that user input nothing so dont do anything 
+            done = true;
+        else
+        {
+            bool result = searchTags(current);
+            if(result)
+                cout << "You already have this tag" << endl;
+            
+            else
+                TAGS.push_back(current);
+        }
+        
+    } while (!done);
+    
 }
-
+void printAllTags()
+{
+    system("clear");
+    printLocation("All Tags");
+    cout << "Note: Adding to many tag may search to specific and no results may be found" << endl;
+    for(size_t i = 0; i < TAGS.size(); i++)
+    {
+        cout << "Tag " << i + 1 << ": " << TAGS[i] << endl;
+    }
+    cout << "Press enter to go back" << endl;
+    bool done = false;
+    do
+    {
+        string goBack ="";
+        getline(cin,goBack);
+        if (goBack.empty())
+            done = true;
+        
+    } while (!done);
+}
 void removeTag()
 {
     system("clear");
     printLocation("Remove Tag");
+    cout << "Type tag you would like to remove or enter nothing to go back" << endl;
+    bool done;
+    do
+    {
+        done = false;
+        string remove = "";
+        cout << "Tag: ";
+        getline(cin,remove);
+        if(remove.empty())// user did not want to remove a tag
+            done = true;
+        
+        for(int i = 0; i < TAGS.size(); i++)
+        {
+            if(TAGS[i] == remove)// we found tag user wants to remove  
+            {
+                cout << "Deleted Tag: " << remove << endl;
+                TAGS.erase(TAGS.begin()+(i));
+            }
+        }
+    } while (!done);
+    
+
 }
 
 void removeAllTags()
 {
-    cout << "Removing all tags . . . " << endl;
+    system("clear");
+    printLocation("Remove All Tags");
+    cout << "Are you sure you want remove all Tag? " << endl;
+    cout << "Input \"yes\" or enter nothing to go back" << endl;
+    bool done = false;
+    do
+    {
+        string goBack ="";
+        getline(cin,goBack);
+        if (goBack.empty()) // user does not want to remove all tags
+            done = true;
+        else if(goBack == "yes" || goBack == "Yes")
+        {
+            TAGS.clear();
+            done = true;
+        }  
+        else
+            cout << "Error: Invalid Input" << endl;
+        
+    } while (!done);
+
+}
+
+bool searchTags(string tag)
+{
+    for(int i = 0; i < TAGS.size(); i++)
+    {
+        if(TAGS[i] == tag)
+            return true;
+    }
+    return false;
+    
 }
