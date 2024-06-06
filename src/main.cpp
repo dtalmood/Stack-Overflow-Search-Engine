@@ -140,19 +140,40 @@ string constructQuestion(string &userQuestion)
     string baseURL = "https://api.stackexchange.com/2.3/search/advanced?";
     string encodedQuery = curl_easy_escape(nullptr, userQuestion.c_str(), userQuestion.length());
     baseURL += "order=desc&sort=relevance&q=" + encodedQuery;
+
+    if(!TAGS.empty())
+    {
+        baseURL += "&tagged=";
+        for(int i = 0; i < TAGS.size(); i++)
+        {
+            baseURL += TAGS[i];
+        }
+        baseURL += ";";
+    }    
+
     baseURL += "&site=stackoverflow";
-    string key = "OUgS5vV1jD7kdtN8*nYZKg((";
+    string key = "OUgS5vV1jD7kdtN8*nYZKg((";  
     baseURL += "&key=" + key;
-    cout << "Constructed String: " << baseURL << endl;
+    //cout << "Constructed String: " << baseURL << endl;
     return baseURL;
 }
 
 void printData(string readBuffer) 
 {
+    cout << "\n"; 
     auto json = nlohmann::json::parse(readBuffer);
-    for (const auto& item : json["items"]) {
+    for (const auto& item : json["items"]) 
+    {
         cout << "Title: " << item["title"] << endl;
+        //cout << "Accepted Answer_id: " << item["accepted_answer_id"] << endl;;
+        cout << "View Count: " << item["view_count"] << endl;;
         cout << "Creation Date: " << item["creation_date"] << endl;
+        cout << "Link: " << item["link"] << endl;
+        //cout << "Reputation: " << item["reputation"] << endl;
+        //cout << "Acceptance Rate: " << item["accept_rate"] << endl;
+        cout << "Answer Count: " << item["answer_count"] << endl;
+        cout << "Score: " << item["score"] << endl;
+        cout << "\n"; 
     }
 }
 
