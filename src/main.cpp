@@ -38,13 +38,19 @@ void searchDataInMongoDBServer(mongocxx::database& db);
 void findDocument(mongocxx::collection& collection, const string& key, const string& value);
 void printCollection(mongocxx::collection& collection);
 void printLocation();
-void searchEngine();
+void getUserQuestion();
 string constructQuestion(string &userQuestion);
+void tag();
+void addTag();
+void removeTag();
+void removeAllTags();
 
 size_t write_callback(char *ptr, size_t size, size_t nmemb, string *userdata) {
     userdata->append(ptr, size * nmemb);
     return size * nmemb;
 }
+
+string tags[20]; // user can only have a maximum of 20 tags per quesiont 
 
 int main() 
 {
@@ -87,7 +93,7 @@ int main()
         }
     }
 
-    searchEngine();
+    getUserQuestion();
     curl_global_cleanup();
     return 0;
 }
@@ -180,20 +186,30 @@ void printLocation(string title)
     cout << setw(titleWidth) << setfill('=') << "" << endl;
 }
 
-void searchEngine()
+void getUserQuestion()
 {
     bool done = false;
+    
     // Before: I had this in my loop and this caused issues
     // 1.  
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     do
     {
-        printLocation("Stack Surfer");
-        cout << "Type your question and once done press enter to search." << endl;
-        
-        cout << "Question: ";
         string userQuestion;
-        getline(cin, userQuestion);
+        bool tagCheck = false;
+        while(!tagCheck)
+        {
+            printLocation("Stack Surfer");
+            cout << "Type your question below or Enter \"tag\" to add tags to your question" << endl;
+            cout << "Question: ";
+            getline(cin, userQuestion);
+            if(userQuestion == "tag") // User Typed Tag 
+                tag();
+            else    // user typed anything but tag
+                tagCheck = true;
+        }
+       
+             
 
         if (userQuestion.empty()) {
             cout << "No input detected. Exiting search." << endl;
@@ -213,4 +229,75 @@ void searchEngine()
         }
 
     } while (!done);
+}
+
+void tag()
+{
+    bool done = false;
+
+    while(!done)
+    {
+        system("clear");
+        printLocation("Tag");
+        cout << "Enter Below what you would like to do" << endl;
+        cout << "1: Add new Tag " << endl;
+        cout << "2: Remove Tag" << endl;
+        cout << "3. Delete all Tags" << endl;
+        cout << "4. Go back" << endl;
+        string userChoice = "0";
+        cout << "Enter: ";
+       
+        // Stoi converts string to Integer, (Static_cast does not proerlyl convert string to an integer)
+        int result;
+        try
+        {
+            getline(cin,userChoice);
+            if(userChoice.empty())
+            return;
+            result = stoi(userChoice); 
+            if(result <= 0 || result >= 5)
+                throw(result);
+        }catch(int result)
+        {
+            cerr << "Error: " << result << "is our of range, Please input a value between 1 and 4 " << endl;
+        }
+        
+        switch(result)   
+        {
+            case 1: 
+                addTag();
+                break;
+            
+            case 2:
+                removeTag();
+                break;
+            
+            case 3:
+                removeAllTags();
+                break;
+            
+            case 4:
+                done = true;
+                break;
+        }
+    }
+    
+}
+
+void addTag()
+{
+    system("clear");
+    printLocation("Add Tag");
+
+}
+
+void removeTag()
+{
+    system("clear");
+    printLocation("Remove Tag");
+}
+
+void removeAllTags()
+{
+    cout << "Removing all tags . . . " << endl;
 }

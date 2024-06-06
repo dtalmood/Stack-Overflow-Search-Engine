@@ -57,6 +57,7 @@
         "__tree": "cpp",
         "forward_list": "cpp",
         "map": "cpp",
-        "span": "cpp"
+        "span": "cpp",
+        "__node_handle": "cpp"
     }
 }
