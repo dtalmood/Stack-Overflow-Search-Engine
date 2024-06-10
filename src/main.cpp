@@ -46,8 +46,8 @@ struct SearchResult
 };
 
 // this will hold user Preferences of filters they do and do not want to see when they are searching for question
-unordered_map<string, bool> hashMap = {{"Creation Date", false}, {"Views",true},{"Reputatin",false}, 
-                                       {"Answer Count",false},{"Acceptance Rate",true},{"Score",true}};
+map<string, bool> hashMap = {{"Creation Date", false}, {"Views",true},{"Reputatin",false}, 
+                                       {"Answer Count",false},{"Acceptance Rate",true},{"Score",false}};
 
 string searchAPI(const string& url);
 void printData(vector<SearchResult> data);
@@ -202,30 +202,47 @@ string constructQuestion(string &userQuestion)
 void printData(vector<SearchResult> data) 
 {
     cout << "\n";
-    for (const auto& item : data) {
+    for (const auto& item : data) 
+    {
         cout << "Title: " << item.title << endl;
-        cout << "Accepted Answer ID: " << item.acceptedAnswerId << endl;
-        cout << "View Count: " << item.viewCount << endl;
-        cout << "Creation Date: " << item.creationDate << endl;
+        //cout << "Accepted Answer ID: " << item.acceptedAnswerId << endl;
+        
+        if(hashMap["Views"])
+            cout << "View Count: " << item.viewCount << endl;
+        
+        if(hashMap["Creation Date"])
+             cout << "Creation Date: " << item.creationDate << endl;
+
         cout << "Link: " << item.link << endl;
         
-        if(item.reputation == -1)
-            cout << "Reputation: N/A" << endl;
-        else    
-            cout << "Reputation: " << item.reputation << endl;
-        
-        if(item.acceptanceRate == -1)
-            cout << "Acceptance Rate: N/A " << endl;
-        else
-            cout << "Acceptance Rate: " << item.acceptanceRate << endl;
-        
-        cout << "Answer Count: " << item.answerCount << endl;
-        
-        if(item.score == -1)
-            cout << "Score: N/A" << endl;
-        else    
-            cout << "Score: " << item.score << endl;
+        if(hashMap["Reputation"])
+        {
+            if(item.reputation == -1)
+                cout << "Reputation: N/A" << endl;
+            else 
+                cout << "Reputation: " << item.reputation << endl;
+        }
        
+        if(hashMap["Acceptance Rate"])
+        {
+            if(item.acceptanceRate == -1)
+                cout << "Acceptance Rate: N/A " << endl;
+            else
+                cout << "Acceptance Rate: " << item.acceptanceRate << endl;
+        }
+        
+        if(hashMap["Answer Count"])
+            cout << "Answer Count: " << item.answerCount << endl;
+
+        if(hashMap["Score"]) 
+        {
+            if(item.score == -1)
+                cout << "Score: N/A" << endl;
+            
+            else    
+                cout << "Score: " << item.score << endl;
+        }
+          
         cout << "\n"; 
     }
 }
@@ -577,9 +594,9 @@ void updateFilter() {
         int i = 1;
         for(const auto &items: hashMap) {
             if(items.second) 
-                cout << i << ": " << items.first << ", On" << endl;
+                cout << i << ": " << items.first << ", On" << endl; // show the data 
             else    
-                cout << i << ": " << items.first << ", Off" << endl;
+                cout << i << ": " << items.first << ", Off" << endl; // hid ethe data 
             i++;
         }
         cout << "Enter the number associated with items you want filtered when searching, Enter nothing to return to previous menu" << endl;
@@ -587,7 +604,7 @@ void updateFilter() {
         getline(cin, input);
         if(input.empty()) { // user input nothing, go back 
             done = true; 
-        } else if(stoi(input) <= 0 || stoi(input) >= 7) { // check if input is a valid number
+        } else if(stoi(input) <= 0 || stoi(input) >= 8) { // check if input is a valid number
             cerr << "Error: Invalid Input. Please enter a value between 1 and 6." << endl;
         } else {
             int idx = stoi(input) - 1;
