@@ -31,7 +31,7 @@ using namespace std;
 using bsoncxx::builder::basic::kvp;
 using bsoncxx::builder::basic::make_document;
 
-
+// holds query Data After reading StackOverFlow API
 struct SearchResult 
 {
     string title;
@@ -45,6 +45,9 @@ struct SearchResult
     int score;
 };
 
+// this will hold user Preferences of filters they do and do not want to see when they are searching for question
+unordered_map<string, bool> hashMap = {{"Creation Date", false}, {"Views",true},{"Reputatin",false}, 
+                                       {"Answer Count",false},{"Acceptance Rate",true},{"Score",true}};
 
 string searchAPI(const string& url);
 void printData(vector<SearchResult> data);
@@ -55,12 +58,28 @@ void printCollection(mongocxx::collection& collection);
 void printLocation();
 void getUserQuestion();
 string constructQuestion(string &userQuestion);
-void tag();
+void moreOptions();
 void addTag();
 void removeTag();
 void removeAllTags();
 void printAllTags();
 bool searchTags(string tag);
+void updateFilter();
+void addFilter();
+void sortBy();
+
+bool sortByViewCount(const SearchResult &a, const SearchResult &b) {
+    return a.viewCount > b.viewCount;
+}
+
+bool sortByAnswerCount(const SearchResult &a, const SearchResult &b) {
+    return a.answerCount > b.answerCount;
+}
+
+bool sortByScore(const SearchResult &a, const SearchResult &b) {
+    return a.score > b.score;
+}
+
 vector<SearchResult> parseSearchResults(string readBuffer);
 
 
@@ -297,11 +316,12 @@ void getUserQuestion()
         while(!tagCheck)
         {
             printLocation("Stack Surfer");
-            cout << "Type your question below or Enter \"tag\" to add tags to your question" << endl;
+            cout << "Type your question below, Enter \"Options\" to add tags to your question or to add/remove search filters" << endl;
             cout << "Question: ";
             getline(cin, userQuestion);
-            if(userQuestion == "tag") // User Typed Tag 
-                tag();
+            if(userQuestion == "options" || userQuestion == "Options" ) // User Typed Tag 
+                moreOptions();
+
             else    // user typed anything but tag
                 tagCheck = true;
         }
@@ -319,7 +339,8 @@ void getUserQuestion()
         vector<SearchResult> result = parseSearchResults(readBuffer);
         printData(result);
 
-        cout << "Type 'done' to exit or press Enter to search for another question." << endl;
+
+        cout << "Type 'done' to exit, hit Enter to search another question or type filters to view filter options" << endl;
         string check;
         getline(cin, check);
 
@@ -330,20 +351,25 @@ void getUserQuestion()
     } while (!done);
 }
 
-void tag()
+void moreOptions()
 {
     bool done = false;
 
     while(!done)
     {
         system("clear");
-        printLocation("Tag");
+        printLocation("Options");
         cout << "Enter Below what you would like to do" << endl;
         cout << "1. Add new Tag " << endl;
         cout << "2. Print all Tags "<< endl;
         cout << "3. Remove Tag" << endl;
         cout << "4. Remove all Tags" << endl;
-        cout << "5. Go back" << endl;
+        // WORK FROM HERE
+        cout << "5. Update Search Filter " << endl;
+        cout << "6. Sort by Views" << endl;
+        cout << "7. Sort by Answer Count" << endl;
+        cout << "8. Sort by Score" << endl;
+        cout << "9. Go back" << endl;
         string userChoice = "0";
         cout << "Enter: ";
        
@@ -381,6 +407,23 @@ void tag()
                 break;
             
             case 5:
+                updateFilter();
+                break;
+
+            case 6:
+                addFilter();
+                break;
+
+            case 7:
+                break;
+            
+            case 8: 
+                break;
+            
+            case 9: 
+                break;
+            
+            case 10:
                 done = true;
                 break;
         }
@@ -507,7 +550,7 @@ vector<SearchResult> parseSearchResults(string readBuffer) {
         SearchResult current;
         current.title = item["title"].get<string>();
 
-        // Use .get<int>() to ensure the type is correct and handle missing keys appropriately
+        //  .get<int>()  ensures  type is correct and handle missing keys appropriately
         current.acceptedAnswerId = item.value("accepted_answer_id", -1);
         current.viewCount = item["view_count"].get<int>();
         current.creationDate = to_string(item["creation_date"].get<int>());
@@ -521,4 +564,50 @@ vector<SearchResult> parseSearchResults(string readBuffer) {
     }
 
     return results;
+}
+
+// 
+void updateFilter() {
+    system("clear");
+    
+    bool done = false;
+    do {
+        printLocation("Filters");
+        cout << "Available Filters: " << endl;
+        int i = 1;
+        for(const auto &items: hashMap) {
+            if(items.second) 
+                cout << i << ": " << items.first << ", On" << endl;
+            else    
+                cout << i << ": " << items.first << ", Off" << endl;
+            i++;
+        }
+        cout << "Enter the number associated with items you want filtered when searching, Enter nothing to return to previous menu" << endl;
+        string input; 
+        getline(cin, input);
+        if(input.empty()) { // user input nothing, go back 
+            done = true; 
+        } else if(stoi(input) <= 0 || stoi(input) >= 7) { // check if input is a valid number
+            cerr << "Error: Invalid Input. Please enter a value between 1 and 6." << endl;
+        } else {
+            int idx = stoi(input) - 1;
+            auto itter = hashMap.begin();
+            advance(itter, idx);
+            itter->second = !(itter->second);
+            cout << "Filter " << itter->first << " toggled " << (itter->second ? "on" : "off") << endl;
+        }
+        cout << "Hit Enter to Apply next filter" << endl;
+        cin.ignore(); // Clear input buffer
+    } while (!done);  
+}
+
+
+void addFilter()
+{
+
+}
+
+void sortBy()
+{
+
 }
