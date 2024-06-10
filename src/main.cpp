@@ -31,7 +31,7 @@ using namespace std;
 using bsoncxx::builder::basic::kvp;
 using bsoncxx::builder::basic::make_document;
 
-void search(const string& url);
+string searchAPI(const string& url);
 void printData(string readBuffer);
 void viewMongoDBServer(mongocxx::database& db);
 void searchDataInMongoDBServer(mongocxx::database& db);
@@ -126,7 +126,7 @@ void searchDataInMongoDBServer(mongocxx::database& db)
 }
 
 
-void search(const string& url)
+string searchAPI(const string& url)
 {
     CURL *curl;
     CURLcode res;
@@ -139,11 +139,14 @@ void search(const string& url)
         res = curl_easy_perform(curl);
         if (res != CURLE_OK) {
             cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << endl;
-        } else {
-            printData(readBuffer);
-        }
+        } 
+        // else 
+        // {
+        //     printData(readBuffer);
+        // }
         curl_easy_cleanup(curl);
     }
+    return readBuffer;
 }
 
 string constructQuestion(string &userQuestion) 
@@ -169,19 +172,39 @@ string constructQuestion(string &userQuestion)
     return baseURL;
 }
 
+// this prints the data Normally
 void printData(string readBuffer) 
 {
     cout << "\n"; 
     auto json = nlohmann::json::parse(readBuffer);
     for (const auto& item : json["items"]) 
     {
+        
         cout << "Title: " << item["title"] << endl;
-        //cout << "Accepted Answer_id: " << item["accepted_answer_id"] << endl;;
+       
+        // Accented Answer ID can potentially have nothing 
+        if (item.find("accepted_answer_id") != item.end()) 
+            cout << "Accepted Answer_id: " << item["accepted_answer_id"] << endl;
+        else   
+            cout << "N/A" << endl;
         cout << "View Count: " << item["view_count"] << endl;;
         cout << "Creation Date: " << item["creation_date"] << endl;
         cout << "Link: " << item["link"] << endl;
-        //cout << "Reputation: " << item["reputation"] << endl;
-        //cout << "Acceptance Rate: " << item["accept_rate"] << endl;
+       
+       // reputaiotn can potentialy have nothing
+        if (item.find("reputation") != item.end()) 
+            cout << "Reputation: " << item["reputation"] << endl;
+        else 
+            cout << "N/A" << endl;
+    
+        cout << "Reputation: " << item["reputation"] << endl;
+        
+        // Acceptance Rate Can potentialy have nothing 
+        if (item.find("accept_rate") != item.end()) 
+            cout << "Acceptance Rate: " << item["accept_rate"] << endl;
+        else    
+            cout << "N/A" << endl;
+
         cout << "Answer Count: " << item["answer_count"] << endl;
         cout << "Score: " << item["score"] << endl;
         cout << "\n"; 
@@ -252,7 +275,8 @@ void getUserQuestion()
         }
 
         string constructedString = constructQuestion(userQuestion);
-        search(constructedString);
+        string result = searchAPI(constructedString);
+        
 
         cout << "Type 'done' to exit or press Enter to search for another question." << endl;
         string check;
