@@ -31,8 +31,26 @@ using namespace std;
 using bsoncxx::builder::basic::kvp;
 using bsoncxx::builder::basic::make_document;
 
-void search(const string& url);
-void printData(string readBuffer);
+// holds query Data After reading StackOverFlow API
+struct SearchResult 
+{
+    string title;
+    int acceptedAnswerId;
+    string creationDate;
+    string link;
+    int viewCount;
+    int reputation;
+    int answerCount;
+    int acceptanceRate;
+    int score;
+};
+
+// this will hold user Preferences of filters they do and do not want to see when they are searching for question
+map<string, bool> hashMap = {{"Creation Date", false}, {"Views",true},{"Reputatin",false}, 
+                                       {"Answer Count",false},{"Acceptance Rate",true},{"Score",false}};
+
+string searchAPI(const string& url);
+void printData(vector<SearchResult> data);
 void viewMongoDBServer(mongocxx::database& db);
 void searchDataInMongoDBServer(mongocxx::database& db);
 void findDocument(mongocxx::collection& collection, const string& key, const string& value);
@@ -40,12 +58,32 @@ void printCollection(mongocxx::collection& collection);
 void printLocation();
 void getUserQuestion();
 string constructQuestion(string &userQuestion);
-void tag();
+void moreOptions();
 void addTag();
 void removeTag();
 void removeAllTags();
 void printAllTags();
 bool searchTags(string tag);
+void updateFilter();
+void addFilter();
+void sortBy();
+
+bool sortByViewCount(const SearchResult &a, const SearchResult &b) {
+    return a.viewCount > b.viewCount;
+}
+
+bool sortByAnswerCount(const SearchResult &a, const SearchResult &b) {
+    return a.answerCount > b.answerCount;
+}
+
+bool sortByScore(const SearchResult &a, const SearchResult &b) {
+    return a.score > b.score;
+}
+
+vector<SearchResult> parseSearchResults(string readBuffer);
+
+
+
 
 size_t write_callback(char *ptr, size_t size, size_t nmemb, string *userdata) {
     userdata->append(ptr, size * nmemb);
@@ -115,7 +153,7 @@ void searchDataInMongoDBServer(mongocxx::database& db)
 }
 
 
-void search(const string& url)
+string searchAPI(const string& url)
 {
     CURL *curl;
     CURLcode res;
@@ -128,11 +166,14 @@ void search(const string& url)
         res = curl_easy_perform(curl);
         if (res != CURLE_OK) {
             cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << endl;
-        } else {
-            printData(readBuffer);
-        }
+        } 
+        // else 
+        // {
+        //     printData(readBuffer);
+        // }
         curl_easy_cleanup(curl);
     }
+    return readBuffer;
 }
 
 string constructQuestion(string &userQuestion) 
@@ -140,21 +181,111 @@ string constructQuestion(string &userQuestion)
     string baseURL = "https://api.stackexchange.com/2.3/search/advanced?";
     string encodedQuery = curl_easy_escape(nullptr, userQuestion.c_str(), userQuestion.length());
     baseURL += "order=desc&sort=relevance&q=" + encodedQuery;
+
+    if(!TAGS.empty())
+    {
+        baseURL += "&tagged=";
+        for(int i = 0; i < TAGS.size(); i++)
+        {
+            baseURL += TAGS[i];
+        }
+        baseURL += ";";
+    }    
+
     baseURL += "&site=stackoverflow";
-    string key = "OUgS5vV1jD7kdtN8*nYZKg((";
+    string key = "OUgS5vV1jD7kdtN8*nYZKg((";  
     baseURL += "&key=" + key;
-    cout << "Constructed String: " << baseURL << endl;
+    //cout << "Constructed String: " << baseURL << endl;
     return baseURL;
 }
 
-void printData(string readBuffer) 
+void printData(vector<SearchResult> data) 
 {
-    auto json = nlohmann::json::parse(readBuffer);
-    for (const auto& item : json["items"]) {
-        cout << "Title: " << item["title"] << endl;
-        cout << "Creation Date: " << item["creation_date"] << endl;
+    cout << "\n";
+    for (const auto& item : data) 
+    {
+        cout << "Title: " << item.title << endl;
+        //cout << "Accepted Answer ID: " << item.acceptedAnswerId << endl;
+        
+        if(hashMap["Views"])
+            cout << "View Count: " << item.viewCount << endl;
+        
+        if(hashMap["Creation Date"])
+             cout << "Creation Date: " << item.creationDate << endl;
+
+        cout << "Link: " << item.link << endl;
+        
+        if(hashMap["Reputation"])
+        {
+            if(item.reputation == -1)
+                cout << "Reputation: N/A" << endl;
+            else 
+                cout << "Reputation: " << item.reputation << endl;
+        }
+       
+        if(hashMap["Acceptance Rate"])
+        {
+            if(item.acceptanceRate == -1)
+                cout << "Acceptance Rate: N/A " << endl;
+            else
+                cout << "Acceptance Rate: " << item.acceptanceRate << endl;
+        }
+        
+        if(hashMap["Answer Count"])
+            cout << "Answer Count: " << item.answerCount << endl;
+
+        if(hashMap["Score"]) 
+        {
+            if(item.score == -1)
+                cout << "Score: N/A" << endl;
+            
+            else    
+                cout << "Score: " << item.score << endl;
+        }
+          
+        cout << "\n"; 
     }
 }
+
+
+
+
+// this prints the data Normally
+// void printData(string readBuffer) 
+// {
+//     cout << "\n"; 
+//     auto json = nlohmann::json::parse(readBuffer);
+//     for (const auto& item : json["items"]) 
+//     {
+        
+//         cout << "Title: " << item["title"] << endl;
+       
+//         // Accented Answer ID can potentially have nothing 
+//         if (item.find("accepted_answer_id") != item.end()) 
+//             cout << "Accepted Answer_id: " << item["accepted_answer_id"] << endl;
+//         else   
+//             cout << "N/A" << endl;
+//         cout << "View Count: " << item["view_count"] << endl;
+//         cout << "Creation Date: " << item["creation_date"] << endl;
+//         cout << "Link: " << item["link"] << endl;
+       
+//        // reputaiotn can potentialy have nothing
+//         if (item.find("reputation") != item.end()) 
+//             cout << "Reputation: " << item["reputation"] << endl;
+//         else 
+//             cout << "N/A" << endl;
+        
+//         // Acceptance Rate Can potentialy have nothing 
+//         if (item.find("accept_rate") != item.end()) 
+//             cout << "Acceptance Rate: " << item["accept_rate"] << endl;
+//         else    
+//             cout << "N/A" << endl;
+
+//         cout << "Answer Count: " << item["answer_count"] << endl;
+//         cout << "Score: " << item["score"] << endl;
+//         cout << "\n"; 
+//     }
+// }
 
 void printCollection(mongocxx::collection& collection) 
 {
@@ -202,11 +333,12 @@ void getUserQuestion()
         while(!tagCheck)
         {
             printLocation("Stack Surfer");
-            cout << "Type your question below or Enter \"tag\" to add tags to your question" << endl;
+            cout << "Type your question below, Enter \"Options\" to add tags to your question or to add/remove search filters" << endl;
             cout << "Question: ";
             getline(cin, userQuestion);
-            if(userQuestion == "tag") // User Typed Tag 
-                tag();
+            if(userQuestion == "options" || userQuestion == "Options" ) // User Typed Tag 
+                moreOptions();
+
             else    // user typed anything but tag
                 tagCheck = true;
         }
@@ -220,9 +352,12 @@ void getUserQuestion()
         }
 
         string constructedString = constructQuestion(userQuestion);
-        search(constructedString);
+        string readBuffer = searchAPI(constructedString);
+        vector<SearchResult> result = parseSearchResults(readBuffer);
+        printData(result);
 
-        cout << "Type 'done' to exit or press Enter to search for another question." << endl;
+
+        cout << "Type 'done' to exit, hit Enter to search another question or type filters to view filter options" << endl;
         string check;
         getline(cin, check);
 
@@ -233,20 +368,25 @@ void getUserQuestion()
     } while (!done);
 }
 
-void tag()
+void moreOptions()
 {
     bool done = false;
 
     while(!done)
     {
         system("clear");
-        printLocation("Tag");
+        printLocation("Options");
         cout << "Enter Below what you would like to do" << endl;
         cout << "1. Add new Tag " << endl;
         cout << "2. Print all Tags "<< endl;
         cout << "3. Remove Tag" << endl;
         cout << "4. Remove all Tags" << endl;
-        cout << "5. Go back" << endl;
+        // WORK FROM HERE
+        cout << "5. Update Search Filter " << endl;
+        cout << "6. Sort by Views" << endl;
+        cout << "7. Sort by Answer Count" << endl;
+        cout << "8. Sort by Score" << endl;
+        cout << "9. Go back" << endl;
         string userChoice = "0";
         cout << "Enter: ";
        
@@ -284,6 +424,23 @@ void tag()
                 break;
             
             case 5:
+                updateFilter();
+                break;
+
+            case 6:
+                addFilter();
+                break;
+
+            case 7:
+                break;
+            
+            case 8: 
+                break;
+            
+            case 9: 
+                break;
+            
+            case 10:
                 done = true;
                 break;
         }
@@ -400,4 +557,74 @@ bool searchTags(string tag)
     }
     return false;
     
+}
+
+vector<SearchResult> parseSearchResults(string readBuffer) {
+    vector<SearchResult> results;
+
+    auto json = nlohmann::json::parse(readBuffer);
+    for (const auto& item : json["items"]) { // Ensure to access the correct part of the JSON
+        SearchResult current;
+        current.title = item["title"].get<string>();
+
+        //  .get<int>()  ensures  type is correct and handle missing keys appropriately
+        current.acceptedAnswerId = item.value("accepted_answer_id", -1);
+        current.viewCount = item["view_count"].get<int>();
+        current.creationDate = to_string(item["creation_date"].get<int>());
+        current.link = item["link"].get<string>();
+        current.reputation = item.value("reputation", -1);
+        current.acceptanceRate = item.value("accept_rate", -1);
+        current.answerCount = item["answer_count"].get<int>();
+        current.score = item["score"].get<int>();
+
+        results.push_back(current);
+    }
+
+    return results;
+}
+
+// 
+void updateFilter() {
+    system("clear");
+    
+    bool done = false;
+    do {
+        printLocation("Filters");
+        cout << "Available Filters: " << endl;
+        int i = 1;
+        for(const auto &items: hashMap) {
+            if(items.second) 
+                cout << i << ": " << items.first << ", On" << endl; // show the data 
+            else    
+                cout << i << ": " << items.first << ", Off" << endl; // hid ethe data 
+            i++;
+        }
+        cout << "Enter the number associated with items you want filtered when searching, Enter nothing to return to previous menu" << endl;
+        string input; 
+        getline(cin, input);
+        if(input.empty()) { // user input nothing, go back 
+            done = true; 
+        } else if(stoi(input) <= 0 || stoi(input) >= 8) { // check if input is a valid number
+            cerr << "Error: Invalid Input. Please enter a value between 1 and 6." << endl;
+        } else {
+            int idx = stoi(input) - 1;
+            auto itter = hashMap.begin();
+            advance(itter, idx);
+            itter->second = !(itter->second);
+            cout << "Filter " << itter->first << " toggled " << (itter->second ? "on" : "off") << endl;
+        }
+        cout << "Hit Enter to Apply next filter" << endl;
+        cin.ignore(); // Clear input buffer
+    } while (!done);  
+}
+
+
+void addFilter()
+{
+
+}
+
+void sortBy()
+{
+
 }
