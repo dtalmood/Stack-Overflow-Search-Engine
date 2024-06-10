@@ -60,6 +60,18 @@
         "span": "cpp",
         "__node_handle": "cpp",
         "bitset": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "__config": "cpp",
+        "__threading_support": "cpp",
+        "__verbose_abort": "cpp",
+        "any": "cpp",
+        "charconv": "cpp",
+        "complex": "cpp",
+        "cstring": "cpp",
+        "execution": "cpp",
+        "mutex": "cpp",
+        "optional": "cpp",
+        "ratio": "cpp",
+        "variant": "cpp"
     }
 }

@@ -47,6 +47,17 @@ void removeAllTags();
 void printAllTags();
 bool searchTags(string tag);
 
+struct SearchResult 
+{
+    string title;
+    string acceptedAnswerId;
+    string creationDate;
+    string link;
+    int viewCount;
+    int answerCount;
+    int score;
+};
+
 size_t write_callback(char *ptr, size_t size, size_t nmemb, string *userdata) {
     userdata->append(ptr, size * nmemb);
     return size * nmemb;
