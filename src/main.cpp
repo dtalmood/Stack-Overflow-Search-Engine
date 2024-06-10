@@ -31,8 +31,23 @@ using namespace std;
 using bsoncxx::builder::basic::kvp;
 using bsoncxx::builder::basic::make_document;
 
+
+struct SearchResult 
+{
+    string title;
+    int acceptedAnswerId;
+    string creationDate;
+    string link;
+    int viewCount;
+    int reputation;
+    int answerCount;
+    int acceptanceRate;
+    int score;
+};
+
+
 string searchAPI(const string& url);
-void printData(string readBuffer);
+void printData(vector<SearchResult> data);
 void viewMongoDBServer(mongocxx::database& db);
 void searchDataInMongoDBServer(mongocxx::database& db);
 void findDocument(mongocxx::collection& collection, const string& key, const string& value);
@@ -46,17 +61,10 @@ void removeTag();
 void removeAllTags();
 void printAllTags();
 bool searchTags(string tag);
+vector<SearchResult> parseSearchResults(string readBuffer);
 
-struct SearchResult 
-{
-    string title;
-    string acceptedAnswerId;
-    string creationDate;
-    string link;
-    int viewCount;
-    int answerCount;
-    int score;
-};
+
+
 
 size_t write_callback(char *ptr, size_t size, size_t nmemb, string *userdata) {
     userdata->append(ptr, size * nmemb);
@@ -172,44 +180,76 @@ string constructQuestion(string &userQuestion)
     return baseURL;
 }
 
-// this prints the data Normally
-void printData(string readBuffer) 
+void printData(vector<SearchResult> data) 
 {
-    cout << "\n"; 
-    auto json = nlohmann::json::parse(readBuffer);
-    for (const auto& item : json["items"]) 
-    {
+    cout << "\n";
+    for (const auto& item : data) {
+        cout << "Title: " << item.title << endl;
+        cout << "Accepted Answer ID: " << item.acceptedAnswerId << endl;
+        cout << "View Count: " << item.viewCount << endl;
+        cout << "Creation Date: " << item.creationDate << endl;
+        cout << "Link: " << item.link << endl;
         
-        cout << "Title: " << item["title"] << endl;
-       
-        // Accented Answer ID can potentially have nothing 
-        if (item.find("accepted_answer_id") != item.end()) 
-            cout << "Accepted Answer_id: " << item["accepted_answer_id"] << endl;
-        else   
-            cout << "N/A" << endl;
-        cout << "View Count: " << item["view_count"] << endl;;
-        cout << "Creation Date: " << item["creation_date"] << endl;
-        cout << "Link: " << item["link"] << endl;
-       
-       // reputaiotn can potentialy have nothing
-        if (item.find("reputation") != item.end()) 
-            cout << "Reputation: " << item["reputation"] << endl;
-        else 
-            cout << "N/A" << endl;
-    
-        cout << "Reputation: " << item["reputation"] << endl;
-        
-        // Acceptance Rate Can potentialy have nothing 
-        if (item.find("accept_rate") != item.end()) 
-            cout << "Acceptance Rate: " << item["accept_rate"] << endl;
+        if(item.reputation == -1)
+            cout << "Reputation: N/A" << endl;
         else    
-            cout << "N/A" << endl;
-
-        cout << "Answer Count: " << item["answer_count"] << endl;
-        cout << "Score: " << item["score"] << endl;
+            cout << "Reputation: " << item.reputation << endl;
+        
+        if(item.acceptanceRate == -1)
+            cout << "Acceptance Rate: N/A " << endl;
+        else
+            cout << "Acceptance Rate: " << item.acceptanceRate << endl;
+        
+        cout << "Answer Count: " << item.answerCount << endl;
+        
+        if(item.score == -1)
+            cout << "Score: N/A" << endl;
+        else    
+            cout << "Score: " << item.score << endl;
+       
         cout << "\n"; 
     }
 }
+
+
+
+
+// this prints the data Normally
+// void printData(string readBuffer) 
+// {
+//     cout << "\n"; 
+//     auto json = nlohmann::json::parse(readBuffer);
+//     for (const auto& item : json["items"]) 
+//     {
+        
+//         cout << "Title: " << item["title"] << endl;
+       
+//         // Accented Answer ID can potentially have nothing 
+//         if (item.find("accepted_answer_id") != item.end()) 
+//             cout << "Accepted Answer_id: " << item["accepted_answer_id"] << endl;
+//         else   
+//             cout << "N/A" << endl;
+//         cout << "View Count: " << item["view_count"] << endl;
+//         cout << "Creation Date: " << item["creation_date"] << endl;
+//         cout << "Link: " << item["link"] << endl;
+       
+//        // reputaiotn can potentialy have nothing
+//         if (item.find("reputation") != item.end()) 
+//             cout << "Reputation: " << item["reputation"] << endl;
+//         else 
+//             cout << "N/A" << endl;
+        
+//         // Acceptance Rate Can potentialy have nothing 
+//         if (item.find("accept_rate") != item.end()) 
+//             cout << "Acceptance Rate: " << item["accept_rate"] << endl;
+//         else    
+//             cout << "N/A" << endl;
+
+//         cout << "Answer Count: " << item["answer_count"] << endl;
+//         cout << "Score: " << item["score"] << endl;
+//         cout << "\n"; 
+//     }
+// }
 
 void printCollection(mongocxx::collection& collection) 
 {
@@ -275,8 +315,9 @@ void getUserQuestion()
         }
 
         string constructedString = constructQuestion(userQuestion);
-        string result = searchAPI(constructedString);
-        
+        string readBuffer = searchAPI(constructedString);
+        vector<SearchResult> result = parseSearchResults(readBuffer);
+        printData(result);
 
         cout << "Type 'done' to exit or press Enter to search for another question." << endl;
         string check;
@@ -456,4 +497,28 @@ bool searchTags(string tag)
     }
     return false;
     
+}
+
+vector<SearchResult> parseSearchResults(string readBuffer) {
+    vector<SearchResult> results;
+
+    auto json = nlohmann::json::parse(readBuffer);
+    for (const auto& item : json["items"]) { // Ensure to access the correct part of the JSON
+        SearchResult current;
+        current.title = item["title"].get<string>();
+
+        // Use .get<int>() to ensure the type is correct and handle missing keys appropriately
+        current.acceptedAnswerId = item.value("accepted_answer_id", -1);
+        current.viewCount = item["view_count"].get<int>();
+        current.creationDate = to_string(item["creation_date"].get<int>());
+        current.link = item["link"].get<string>();
+        current.reputation = item.value("reputation", -1);
+        current.acceptanceRate = item.value("accept_rate", -1);
+        current.answerCount = item["answer_count"].get<int>();
+        current.score = item["score"].get<int>();
+
+        results.push_back(current);
+    }
+
+    return results;
 }
