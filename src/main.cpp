@@ -45,6 +45,9 @@ struct SearchResult
     int score;
 };
 
+// this string holds which sort the user wants to run 
+string sortAlgoithmChoosen = "";
+
 // this will hold user Preferences of filters they do and do not want to see when they are searching for question
 map<string, bool> hashMap = {{"Creation Date", false}, {"Views",true},{"Reputatin",false}, 
                                        {"Answer Count",false},{"Acceptance Rate",true},{"Score",false}};
@@ -65,8 +68,8 @@ void removeAllTags();
 void printAllTags();
 bool searchTags(string tag);
 void updateFilter();
-void addFilter();
-void sortBy();
+void selectSort(string whichSort);
+vector<SearchResult> runSort(vector<SearchResult> &result);
 
 bool sortByViewCount(const SearchResult &a, const SearchResult &b) {
     return a.viewCount > b.viewCount;
@@ -354,9 +357,15 @@ void getUserQuestion()
         string constructedString = constructQuestion(userQuestion);
         string readBuffer = searchAPI(constructedString);
         vector<SearchResult> result = parseSearchResults(readBuffer);
-        printData(result);
+        
+        if(sortAlgoithmChoosen == "") // no sort algorithm was just print the data as is  
+            printData(result);
 
-
+        else
+        {
+            vector<SearchResult> sortedResult = runSort(result); // here we call function and see which sort to use 
+            printData(sortedResult);
+        }
         cout << "Type 'done' to exit, hit Enter to search another question or type filters to view filter options" << endl;
         string check;
         getline(cin, check);
@@ -376,13 +385,14 @@ void moreOptions()
     {
         system("clear");
         printLocation("Options");
-        cout << "Enter Below what you would like to do" << endl;
+        cout << "Current Sort: " << sortAlgoithmChoosen  << endl;
+        cout << "Enter Below what you would like to do:" << endl;
         cout << "1. Add new Tag " << endl;
         cout << "2. Print all Tags "<< endl;
         cout << "3. Remove Tag" << endl;
         cout << "4. Remove all Tags" << endl;
-        // WORK FROM HERE
         cout << "5. Update Search Filter " << endl;
+        // WORK FROM HERE
         cout << "6. Sort by Views" << endl;
         cout << "7. Sort by Answer Count" << endl;
         cout << "8. Sort by Score" << endl;
@@ -428,21 +438,22 @@ void moreOptions()
                 break;
 
             case 6:
-                addFilter();
+                selectSort("Views"); //  Views 
                 break;
 
             case 7:
+                selectSort("Answers"); // Answer Count
                 break;
             
             case 8: 
+                selectSort("Score"); // Score
                 break;
             
             case 9: 
-                break;
-            
-            case 10:
                 done = true;
                 break;
+            
+                
         }
     }
     
@@ -584,7 +595,8 @@ vector<SearchResult> parseSearchResults(string readBuffer) {
 }
 
 // 
-void updateFilter() {
+void updateFilter() 
+{
     system("clear");
     
     bool done = false;
@@ -619,12 +631,31 @@ void updateFilter() {
 }
 
 
-void addFilter()
+void selectSort(string whichSort)
 {
+    if(sortAlgoithmChoosen == "")// if empty this means user has not choosen an sort yet 
+        sortAlgoithmChoosen = whichSort;
+    
+    else if(sortAlgoithmChoosen ==  whichSort)// if they are same that means we delect a sorting method
+        sortAlgoithmChoosen = "";
+    
+    else // if not empty and not the same then we pick our new sorting method
+        sortAlgoithmChoosen = whichSort;
+
+
 
 }
 
-void sortBy()
+vector<SearchResult> runSort(vector<SearchResult> &result)
 {
+    if(sortAlgoithmChoosen == "Views")
+        sort(result.begin(), result.end(), sortByViewCount);
+    
+    else if(sortAlgoithmChoosen == "Answers")
+        sort(result.begin(), result.end(), sortByAnswerCount);
 
+    else
+        sort(result.begin(), result.end(), sortByScore);
+
+    return result;
 }
