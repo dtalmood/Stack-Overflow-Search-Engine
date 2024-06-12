@@ -1,0 +1,63 @@
+{
+  "homebrew_version": "4.2.21-32-g802487d",
+  "used_options": [
+
+  ],
+  "unused_options": [
+
+  ],
+  "built_as_bottle": true,
+  "poured_from_bottle": true,
+  "loaded_from_api": true,
+  "installed_as_dependency": true,
+  "installed_on_request": true,
+  "changed_files": [
+    "share/mongo-c-driver/uninstall.sh",
+    "lib/pkgconfig/libbson-1.0.pc",
+    "lib/pkgconfig/libbson-static-1.0.pc",
+    "lib/pkgconfig/libmongoc-1.0.pc",
+    "lib/pkgconfig/libmongoc-static-1.0.pc"
+  ],
+  "time": 1717272891,
+  "source_modified_time": 1715083951,
+  "compiler": "clang",
+  "aliases": [
+    "libmongoc"
+  ],
+  "runtime_dependencies": [
+    {
+      "full_name": "ca-certificates",
+      "version": "2024-03-11",
+      "revision": 0,
+      "pkg_version": "2024-03-11",
+      "declared_directly": false
+    },
+    {
+      "full_name": "openssl@3",
+      "version": "3.3.0",
+      "revision": 0,
+      "pkg_version": "3.3.0",
+      "declared_directly": true
+    }
+  ],
+  "source": {
+    "spec": "stable",
+    "versions": {
+      "stable": "1.27.1",
+      "head": null,
+      "version_scheme": 0
+    },
+    "path": "/opt/homebrew/Library/Taps/homebrew/homebrew-core/Formula/m/mongo-c-driver.rb",
+    "tap_git_head": null,
+    "tap": "homebrew/core"
+  },
+  "arch": "arm64",
+  "built_on": {
+    "os": "Macintosh",
+    "os_version": "macOS 14.4",
+    "cpu_family": "dunno",
+    "xcode": "15.3",
+    "clt": "15.3.0.0.1.1708646388",
+    "preferred_perl": "5.34"
+  }
+}

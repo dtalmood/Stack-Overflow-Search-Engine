@@ -8,18 +8,17 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add include directories
-#This only tells CMake where to look for header files
 include_directories(include) 
-include_directories("/opt/homebrew/include/mongocxx/v_noabi/")
-include_directories("/opt/homebrew/include/bsoncxx/v_noabi/")
-include_directories("/opt/homebrew/include/bsoncxx/v_noabi/bsoncxx/third_party/mnmlstc")
-include_directories("/Users/dylantalmood/Git-Libraries/libbcrypt/include") # this is for libbcrypt Library
+include_directories("${CMAKE_SOURCE_DIR}/Libraries/mongo-cxx-driver/3.10.1/include/mongocxx/v_noabi/")
+include_directories("${CMAKE_SOURCE_DIR}/Libraries/mongo-cxx-driver/3.10.1/include/bsoncxx/v_noabi/")
+include_directories("${CMAKE_SOURCE_DIR}/Libraries/mongo-cxx-driver/3.10.1/include/bsoncxx/v_noabi/bsoncxx/third_party/mnmlstc")
+include_directories("${CMAKE_SOURCE_DIR}/Libraries/bcrypt/1.1/include")
+
 
 # Find and link MongoDB C++ driver libraries
-find_library(MONGOCXX_LIB mongocxx HINTS "/opt/homebrew/lib")
-find_library(BSONCXX_LIB bsoncxx HINTS "/opt/homebrew/lib")
-find_library(LIBBCRYPT_LIB bcrypt HINTS "/usr/local/lib")
-
+find_library(MONGOCXX_LIB mongocxx HINTS "${CMAKE_SOURCE_DIR}/library/lib")
+find_library(BSONCXX_LIB bsoncxx HINTS "${CMAKE_SOURCE_DIR}/library/lib")
+find_library(LIBBCRYPT_LIB bcrypt HINTS "${CMAKE_SOURCE_DIR}/library/lib")
 
 # Create an executable named MyProject which will run main.cpp
 add_executable(MyProject src/main.cpp src/authentication.cpp)
