@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <vector>
 #include <stdlib.h>
+#include <fstream>
 
 // My Libraries 
 #include "authentication.hpp"
@@ -17,12 +18,24 @@
 // libbcrypt: this is a wrapper for Bcrypt encrption algorithm 
 #include "bcrypt/BCrypt.hpp"
 
-
+// 
 using namespace std;
 namespace bson = bsoncxx;
 using bson::builder::basic::kvp;
 using bson::builder::basic::make_document;
 using bson::v_noabi::document::view;
+
+
+//SMTP SETUP 
+const string SMTP_SERVER = "smtp://smtp.gmail.com:587";
+const string USERNAME = "dtalmood1@gmail.com";
+const string FROM = "dtalmood1@gmail.com";
+
+struct upload_status {
+    int lines_read;
+    vector<string> payload;
+};
+
 
 int authentication::menu()
 {
@@ -62,7 +75,8 @@ int authentication::menu()
     }while(invalid);
     
     return userInput;
-}   
+}
+
 
 void authentication::printLocation(string title)
 {
@@ -167,9 +181,11 @@ void authentication::forgotPassword(mongocxx::database& db)
         // TODO: Check if The Email exsits in our data base 
        
         // TODO: Generate a random code 9 digit code       
-       
+        code = "123";
+        sendEmail(email,code);
         cout << "Code Sent to Email Address\nCode:" << endl;
         cin  >> code;
+
 
         // TODO: Check if the code generated mathces what the user input 
         
@@ -253,4 +269,94 @@ bsoncxx::document::value authentication::createDocument(const vector<pair<string
 void authentication::insertDocument(mongocxx::collection& collection, const bsoncxx::document::value& document)
 {
     collection.insert_one(document.view());
+}
+
+size_t authentication::payload_source(void *ptr, size_t size, size_t nmemb, void *userp) 
+{
+    struct upload_status *upload_ctx = (struct upload_status *)userp;
+    const char *data;
+
+    if ((size == 0) || (nmemb == 0) || ((size * nmemb) < 1)) {
+        return 0;
+    }
+
+    if (upload_ctx->lines_read < upload_ctx->payload.size()) {
+        data = upload_ctx->payload[upload_ctx->lines_read].c_str();
+        size_t len = strlen(data);
+        memcpy(ptr, data, len);
+        upload_ctx->lines_read++;
+        return len;
+    }
+
+    return 0;
+}
+
+void authentication::sendEmail(const string &to, const string &code) 
+{
+    CURL *curl;
+    CURLcode res = CURLE_OK;
+    struct curl_slist *recipients = NULL;
+    struct upload_status upload_ctx = { 0 };
+
+    // Compose email payload
+    upload_ctx.payload.push_back("Date: Mon, 29 Nov 2021 21:54:29 +0000\r\n");
+    upload_ctx.payload.push_back("To: " + to + "\r\n");
+    upload_ctx.payload.push_back("From: " + FROM + " (Your Name)\r\n");
+    upload_ctx.payload.push_back("Subject: Password Reset Code\r\n");
+    upload_ctx.payload.push_back("\r\n"); // Empty line to divide headers from body
+    upload_ctx.payload.push_back("Your password reset code is: " + code + "\r\n");
+    
+    const string PASSWORD = getPasswordLocal();
+
+    curl = curl_easy_init();
+    if (curl) {
+        curl_easy_setopt(curl, CURLOPT_URL, SMTP_SERVER.c_str());
+        curl_easy_setopt(curl, CURLOPT_USE_SSL, (long)CURLUSESSL_ALL);
+        curl_easy_setopt(curl, CURLOPT_USERNAME, USERNAME.c_str());
+        curl_easy_setopt(curl, CURLOPT_PASSWORD, PASSWORD.c_str());
+        curl_easy_setopt(curl, CURLOPT_MAIL_FROM, FROM.c_str());
+
+
+        recipients = curl_slist_append(recipients, to.c_str());
+        curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
+        curl_easy_setopt(curl, CURLOPT_READFUNCTION, payload_source);
+        curl_easy_setopt(curl, CURLOPT_READDATA, &upload_ctx);
+        curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
+
+        res = curl_easy_perform(curl);
+
+        if (res != CURLE_OK) {
+            fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+        }
+
+        curl_slist_free_all(recipients);
+        curl_easy_cleanup(curl);
+    }
+}
+string authentication::getPasswordLocal()
+{
+    string passcode;
+    fstream new_file;
+    
+    // We put the pascode in bashRC file so its local to us and no one else can see it
+    string filePath = getenv("HOME");
+    filePath += "/.bashrc";
+
+    // this opens the file path s
+    new_file.open(filePath,ios::in);
+    
+    // check if we found the file 
+    if(new_file.is_open())
+    {
+        // We found the file! 
+        getline(new_file,passcode); // Here we are reading literally the first line becuase thats where the passcode is stored
+        return passcode.substr(22,16);
+    }
+   
+    else
+    {
+        cout << "Error: File not found" << endl;
+        return "";
+    }
+
 }

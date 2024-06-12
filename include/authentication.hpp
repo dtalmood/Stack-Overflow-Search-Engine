@@ -27,6 +27,9 @@ class authentication
     static bool findLogin(mongocxx::collection& collection, const string& key1, const string& value1, const string& key2, const string& value2);
     static bsoncxx::document::value createDocument(const vector<pair<string, string>>& keyValues);
     static void insertDocument(mongocxx::collection& collection, const bsoncxx::document::value& document);
+    static size_t payload_source(void *ptr, size_t size, size_t nmemb, void *userp);
+    static void sendEmail(const string &to, const string &code);
+    static string getPasswordLocal();
 };
 
 #endif 
