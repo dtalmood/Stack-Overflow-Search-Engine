@@ -1,0 +1,327 @@
+{
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "spdxVersion": "SPDX-2.3",
+  "name": "SBOM-SPDX-mongosh-2.2.6",
+  "creationInfo": {
+    "created": "2024-06-01 03:37:31 UTC",
+    "creators": [
+      "Tool: https://github.com/homebrew/brew@4.3.2"
+    ]
+  },
+  "dataLicense": "CC0-1.0",
+  "documentNamespace": "https://formulae.brew.sh/spdx/mongosh-2.2.6.json",
+  "documentDescribes": [
+    "SPDXRef-Archive-mongosh-src",
+    "SPDXRef-Package-SPDXRef-brotli-1.1.0",
+    "SPDXRef-Package-SPDXRef-c-ares-1.29.0",
+    "SPDXRef-Package-SPDXRef-icu4c-74.2",
+    "SPDXRef-Package-SPDXRef-libnghttp2-1.61.0",
+    "SPDXRef-Package-SPDXRef-libuv-1.48.0",
+    "SPDXRef-Package-SPDXRef-ca-certificates-2024-03-11",
+    "SPDXRef-Package-SPDXRef-openssl@3-3.3.0",
+    "SPDXRef-Package-SPDXRef-node-22.2.0",
+    "SPDXRef-Compiler",
+    "SPDXRef-Bottle-mongosh"
+  ],
+  "files": [
+
+  ],
+  "packages": [
+    {
+      "SPDXID": "SPDXRef-Archive-mongosh-src",
+      "name": "mongosh",
+      "versionInfo": "2.2.6",
+      "filesAnalyzed": false,
+      "licenseDeclared": "NOASSERTION",
+      "builtDate": "1985-10-26 08:15:00 UTC",
+      "licenseConcluded": "Apache-2.0",
+      "downloadLocation": "https://registry.npmjs.org/@mongosh/cli-repl/-/cli-repl-2.2.6.tgz",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "0cf3f54ecd2e3d37e669761c12de9771af1f8e32e35ba7946938f76612d92cb4"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Package-SPDXRef-brotli-1.1.0",
+      "name": "brotli",
+      "versionInfo": "1.1.0",
+      "filesAnalyzed": false,
+      "licenseDeclared": "NOASSERTION",
+      "licenseConcluded": "MIT",
+      "downloadLocation": "https://ghcr.io/v2/homebrew/core/brotli/blobs/sha256:2a95140d61198e3153ff27d8847b76dd34162f6e6e39f3e0f34d2b3a3e4f15dd",
+      "copyrightText": "NOASSERTION",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "2a95140d61198e3153ff27d8847b76dd34162f6e6e39f3e0f34d2b3a3e4f15dd"
+        }
+      ],
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:brew/brotli@1.1.0",
+          "referenceType": "purl"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Package-SPDXRef-c-ares-1.29.0",
+      "name": "c-ares",
+      "versionInfo": "1.29.0",
+      "filesAnalyzed": false,
+      "licenseDeclared": "NOASSERTION",
+      "licenseConcluded": "MIT",
+      "downloadLocation": "https://ghcr.io/v2/homebrew/core/c-ares/blobs/sha256:50b8ff29e104224eb64084cea5119fba638e1455d4300d28febc731c83d6e540",
+      "copyrightText": "NOASSERTION",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "50b8ff29e104224eb64084cea5119fba638e1455d4300d28febc731c83d6e540"
+        }
+      ],
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:brew/c-ares@1.29.0",
+          "referenceType": "purl"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Package-SPDXRef-icu4c-74.2",
+      "name": "icu4c",
+      "versionInfo": "74.2",
+      "filesAnalyzed": false,
+      "licenseDeclared": "NOASSERTION",
+      "licenseConcluded": "ICU",
+      "downloadLocation": "https://ghcr.io/v2/homebrew/core/icu4c/blobs/sha256:3facc22a7821e01d93a38e371e377f13275299d518929222ed34c77a4f4a65d3",
+      "copyrightText": "NOASSERTION",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "3facc22a7821e01d93a38e371e377f13275299d518929222ed34c77a4f4a65d3"
+        }
+      ],
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:brew/icu4c@74.2",
+          "referenceType": "purl"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Package-SPDXRef-libnghttp2-1.61.0",
+      "name": "libnghttp2",
+      "versionInfo": "1.61.0",
+      "filesAnalyzed": false,
+      "licenseDeclared": "NOASSERTION",
+      "licenseConcluded": "MIT",
+      "downloadLocation": "https://ghcr.io/v2/homebrew/core/libnghttp2/blobs/sha256:6bd6cd9fad916829f98adbd9823545a09b0c147475cb4aa3caaa1f3a9e8104e0",
+      "copyrightText": "NOASSERTION",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "6bd6cd9fad916829f98adbd9823545a09b0c147475cb4aa3caaa1f3a9e8104e0"
+        }
+      ],
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:brew/libnghttp2@1.61.0",
+          "referenceType": "purl"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Package-SPDXRef-libuv-1.48.0",
+      "name": "libuv",
+      "versionInfo": "1.48.0",
+      "filesAnalyzed": false,
+      "licenseDeclared": "NOASSERTION",
+      "licenseConcluded": "MIT",
+      "downloadLocation": "https://ghcr.io/v2/homebrew/core/libuv/blobs/sha256:803e5cefd2523e4f7fb2d70497df5df4b6bfbf3f285cfde9e9ff05f815bfb879",
+      "copyrightText": "NOASSERTION",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "803e5cefd2523e4f7fb2d70497df5df4b6bfbf3f285cfde9e9ff05f815bfb879"
+        }
+      ],
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:brew/libuv@1.48.0",
+          "referenceType": "purl"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Package-SPDXRef-ca-certificates-2024-03-11",
+      "name": "ca-certificates",
+      "versionInfo": "2024-03-11",
+      "filesAnalyzed": false,
+      "licenseDeclared": "NOASSERTION",
+      "licenseConcluded": "MPL-2.0",
+      "downloadLocation": "https://ghcr.io/v2/homebrew/core/ca-certificates/blobs/sha256:cab828953672906e00a8f25db751977b8dc4115f021f8dfe82b644ade03dacdb",
+      "copyrightText": "NOASSERTION",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "cab828953672906e00a8f25db751977b8dc4115f021f8dfe82b644ade03dacdb"
+        }
+      ],
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:brew/ca-certificates@2024-03-11",
+          "referenceType": "purl"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Package-SPDXRef-openssl@3-3.3.0",
+      "name": "openssl@3",
+      "versionInfo": "3.3.0",
+      "filesAnalyzed": false,
+      "licenseDeclared": "NOASSERTION",
+      "licenseConcluded": "Apache-2.0",
+      "downloadLocation": "https://ghcr.io/v2/homebrew/core/openssl/3/blobs/sha256:ec6f9daf8e32d96f4a2f4cd56d18533ee47bb8d9e7cb3d832ac64115d8a1a4ca",
+      "copyrightText": "NOASSERTION",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "ec6f9daf8e32d96f4a2f4cd56d18533ee47bb8d9e7cb3d832ac64115d8a1a4ca"
+        }
+      ],
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:brew/openssl@3@3.3.0",
+          "referenceType": "purl"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Package-SPDXRef-node-22.2.0",
+      "name": "node",
+      "versionInfo": "22.2.0",
+      "filesAnalyzed": false,
+      "licenseDeclared": "NOASSERTION",
+      "licenseConcluded": "MIT",
+      "downloadLocation": "https://ghcr.io/v2/homebrew/core/node/blobs/sha256:e5136cf5f60e0dec5911e8f7bcf6a17909a2d043aa0203144a2c6d7431f74b3e",
+      "copyrightText": "NOASSERTION",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "e5136cf5f60e0dec5911e8f7bcf6a17909a2d043aa0203144a2c6d7431f74b3e"
+        }
+      ],
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:brew/node@22.2.0",
+          "referenceType": "purl"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Compiler",
+      "name": "clang",
+      "versionInfo": "15.4",
+      "filesAnalyzed": false,
+      "licenseDeclared": "NOASSERTION",
+      "licenseConcluded": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "checksums": [
+
+      ],
+      "externalRefs": [
+
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Bottle-mongosh",
+      "name": "mongosh",
+      "versionInfo": "2.2.6",
+      "filesAnalyzed": false,
+      "licenseDeclared": "NOASSERTION",
+      "builtDate": "1985-10-26 08:15:00 UTC",
+      "licenseConcluded": "Apache-2.0",
+      "downloadLocation": "https://ghcr.io/v2/homebrew/core/mongosh/blobs/sha256:00b50abcf8935a05510d3e47336a0eb877c95f7027c9bf04d6e785476b9f6970",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:brew/homebrew/core/mongosh@2.2.6",
+          "referenceType": "purl"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "00b50abcf8935a05510d3e47336a0eb877c95f7027c9bf04d6e785476b9f6970"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "spdxElementId": "SPDXRef-Package-SPDXRef-brotli-1.1.0",
+      "relationshipType": "RUNTIME_DEPENDENCY_OF",
+      "relatedSpdxElement": "SPDXRef-Bottle-mongosh"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-SPDXRef-c-ares-1.29.0",
+      "relationshipType": "RUNTIME_DEPENDENCY_OF",
+      "relatedSpdxElement": "SPDXRef-Bottle-mongosh"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-SPDXRef-icu4c-74.2",
+      "relationshipType": "RUNTIME_DEPENDENCY_OF",
+      "relatedSpdxElement": "SPDXRef-Bottle-mongosh"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-SPDXRef-libnghttp2-1.61.0",
+      "relationshipType": "RUNTIME_DEPENDENCY_OF",
+      "relatedSpdxElement": "SPDXRef-Bottle-mongosh"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-SPDXRef-libuv-1.48.0",
+      "relationshipType": "RUNTIME_DEPENDENCY_OF",
+      "relatedSpdxElement": "SPDXRef-Bottle-mongosh"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-SPDXRef-ca-certificates-2024-03-11",
+      "relationshipType": "RUNTIME_DEPENDENCY_OF",
+      "relatedSpdxElement": "SPDXRef-Bottle-mongosh"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-SPDXRef-openssl@3-3.3.0",
+      "relationshipType": "RUNTIME_DEPENDENCY_OF",
+      "relatedSpdxElement": "SPDXRef-Bottle-mongosh"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-SPDXRef-node-22.2.0",
+      "relationshipType": "RUNTIME_DEPENDENCY_OF",
+      "relatedSpdxElement": "SPDXRef-Bottle-mongosh"
+    },
+    {
+      "spdxElementId": "SPDXRef-File-mongosh",
+      "relationshipType": "PACKAGE_OF",
+      "relatedSpdxElement": "SPDXRef-Archive-mongosh-src"
+    },
+    {
+      "spdxElementId": "SPDXRef-Compiler",
+      "relationshipType": "BUILD_TOOL_OF",
+      "relatedSpdxElement": "SPDXRef-Package-mongosh-src"
+    }
+  ]
+}
