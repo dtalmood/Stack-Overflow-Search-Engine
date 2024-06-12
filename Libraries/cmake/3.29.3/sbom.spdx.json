@@ -1,0 +1,95 @@
+{
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "spdxVersion": "SPDX-2.3",
+  "name": "SBOM-SPDX-cmake-3.29.3",
+  "creationInfo": {
+    "created": "2024-05-29 03:51:33 UTC",
+    "creators": [
+      "Tool: https://github.com/homebrew/brew@4.3.2"
+    ]
+  },
+  "dataLicense": "CC0-1.0",
+  "documentNamespace": "https://formulae.brew.sh/spdx/cmake-3.29.3.json",
+  "documentDescribes": [
+    "SPDXRef-Archive-cmake-src",
+    "SPDXRef-Compiler",
+    "SPDXRef-Bottle-cmake"
+  ],
+  "files": [
+
+  ],
+  "packages": [
+    {
+      "SPDXID": "SPDXRef-Archive-cmake-src",
+      "name": "cmake",
+      "versionInfo": "3.29.3",
+      "filesAnalyzed": false,
+      "licenseDeclared": "NOASSERTION",
+      "builtDate": "2024-05-07 16:49:54 UTC",
+      "licenseConcluded": "BSD-3-Clause",
+      "downloadLocation": "https://github.com/Kitware/CMake/releases/download/v3.29.3/cmake-3.29.3.tar.gz",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "252aee1448d49caa04954fd5e27d189dd51570557313e7b281636716a238bccb"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Compiler",
+      "name": "clang",
+      "versionInfo": "15.4",
+      "filesAnalyzed": false,
+      "licenseDeclared": "NOASSERTION",
+      "licenseConcluded": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "checksums": [
+
+      ],
+      "externalRefs": [
+
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Bottle-cmake",
+      "name": "cmake",
+      "versionInfo": "3.29.3",
+      "filesAnalyzed": false,
+      "licenseDeclared": "NOASSERTION",
+      "builtDate": "2024-05-07 16:49:54 UTC",
+      "licenseConcluded": "BSD-3-Clause",
+      "downloadLocation": "https://ghcr.io/v2/homebrew/core/cmake/blobs/sha256:36b80a88fc65fdd98e3337edee771d484483255edd275bc5c4395bf59cef4264",
+      "copyrightText": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:brew/homebrew/core/cmake@3.29.3",
+          "referenceType": "purl"
+        }
+      ],
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "36b80a88fc65fdd98e3337edee771d484483255edd275bc5c4395bf59cef4264"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "spdxElementId": "SPDXRef-File-cmake",
+      "relationshipType": "PACKAGE_OF",
+      "relatedSpdxElement": "SPDXRef-Archive-cmake-src"
+    },
+    {
+      "spdxElementId": "SPDXRef-Compiler",
+      "relationshipType": "BUILD_TOOL_OF",
+      "relatedSpdxElement": "SPDXRef-Package-cmake-src"
+    }
+  ]
+}

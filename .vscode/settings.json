@@ -72,6 +72,8 @@
         "mutex": "cpp",
         "optional": "cpp",
         "ratio": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "fstream": "cpp",
+        "list": "cpp"
     }
 }

@@ -4,11 +4,10 @@
             "name": "Mac",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/opt/homebrew/include/mongocxx/v_noabi/",
-                "/opt/homebrew/include/bsoncxx/v_noabi/",
-                "/opt/homebrew/Cellar/mongo-cxx-driver/3.10.1/include/bsoncxx/v_noabi/bsoncxx/third_party/mnmlstc",
-                "/opt/homebrew/Cellar/mongo-cxx-driver/3.10.1/include/bsoncxx/v_noabi/bsoncxx/builder/stream",
-                "/Users/dylantalmood/Git-Libraries/libbcrypt/include" 
+                "${workspaceFolder}/Libraries/mongo-cxx-driver/3.10.1/include/mongocxx/v_noabi/",
+                "${workspaceFolder}/Libraries/mongo-cxx-driver/3.10.1/include/bsoncxx/v_noabi/",
+                "${workspaceFolder}/Libraries/mongo-cxx-driver/3.10.1/include/bsoncxx/v_noabi/bsoncxx/third_party/mnmlstc",
+                "${workspaceFolder}/Libraries/bcrypt/1.1/include"
             ],
             "defines": [],
             "macFrameworkPath": [
