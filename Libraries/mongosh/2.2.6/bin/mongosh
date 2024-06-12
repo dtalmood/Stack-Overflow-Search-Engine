@@ -1,0 +1,2 @@
+#!/bin/bash
+PATH="/opt/homebrew/opt/node/bin:$PATH" exec "/opt/homebrew/Cellar/mongosh/2.2.6/libexec/bin/mongosh"  "$@"

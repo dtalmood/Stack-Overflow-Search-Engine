@@ -1,0 +1,110 @@
+{
+  "homebrew_version": "4.3.0-66-gc269524",
+  "used_options": [
+
+  ],
+  "unused_options": [
+
+  ],
+  "built_as_bottle": true,
+  "poured_from_bottle": true,
+  "loaded_from_api": true,
+  "installed_as_dependency": true,
+  "installed_on_request": false,
+  "changed_files": [
+    "bin/mongosh",
+    "libexec/lib/node_modules/@mongosh/cli-repl/lib/config-directory.js",
+    "libexec/lib/node_modules/@mongosh/cli-repl/node_modules/glibc-version/build/Makefile",
+    "libexec/lib/node_modules/@mongosh/cli-repl/node_modules/glibc-version/build/config.gypi",
+    "libexec/lib/node_modules/@mongosh/cli-repl/node_modules/macos-export-certificate-and-key/build/Makefile",
+    "libexec/lib/node_modules/@mongosh/cli-repl/node_modules/macos-export-certificate-and-key/build/config.gypi",
+    "libexec/lib/node_modules/@mongosh/cli-repl/node_modules/mongodb-crypt-library-version/build/Makefile",
+    "libexec/lib/node_modules/@mongosh/cli-repl/node_modules/mongodb-crypt-library-version/build/config.gypi",
+    "libexec/lib/node_modules/@mongosh/cli-repl/node_modules/os-dns-native/build/Makefile",
+    "libexec/lib/node_modules/@mongosh/cli-repl/node_modules/os-dns-native/build/config.gypi"
+  ],
+  "time": 1717213051,
+  "source_modified_time": 499162500,
+  "compiler": "clang",
+  "aliases": [
+
+  ],
+  "runtime_dependencies": [
+    {
+      "full_name": "brotli",
+      "version": "1.1.0",
+      "revision": 0,
+      "pkg_version": "1.1.0",
+      "declared_directly": false
+    },
+    {
+      "full_name": "c-ares",
+      "version": "1.29.0",
+      "revision": 0,
+      "pkg_version": "1.29.0",
+      "declared_directly": false
+    },
+    {
+      "full_name": "icu4c",
+      "version": "74.2",
+      "revision": 0,
+      "pkg_version": "74.2",
+      "declared_directly": false
+    },
+    {
+      "full_name": "libnghttp2",
+      "version": "1.61.0",
+      "revision": 0,
+      "pkg_version": "1.61.0",
+      "declared_directly": false
+    },
+    {
+      "full_name": "libuv",
+      "version": "1.48.0",
+      "revision": 0,
+      "pkg_version": "1.48.0",
+      "declared_directly": false
+    },
+    {
+      "full_name": "ca-certificates",
+      "version": "2024-03-11",
+      "revision": 0,
+      "pkg_version": "2024-03-11",
+      "declared_directly": false
+    },
+    {
+      "full_name": "openssl@3",
+      "version": "3.3.0",
+      "revision": 0,
+      "pkg_version": "3.3.0",
+      "declared_directly": false
+    },
+    {
+      "full_name": "node",
+      "version": "22.2.0",
+      "revision": 0,
+      "pkg_version": "22.2.0",
+      "declared_directly": true
+    }
+  ],
+  "source": {
+    "spec": "stable",
+    "versions": {
+      "stable": "2.2.6",
+      "head": null,
+      "version_scheme": 0
+    },
+    "path": "/opt/homebrew/Library/Taps/homebrew/homebrew-core/Formula/m/mongosh.rb",
+    "tap_git_head": null,
+    "tap": "homebrew/core"
+  },
+  "arch": "arm64",
+  "built_on": {
+    "os": "Macintosh",
+    "os_version": "macOS 14.4",
+    "cpu_family": "dunno",
+    "xcode": "15.3",
+    "clt": "15.3.0.0.1.1708646388",
+    "preferred_perl": "5.34"
+  }
+}
