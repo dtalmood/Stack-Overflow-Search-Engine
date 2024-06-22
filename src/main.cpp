@@ -213,7 +213,7 @@ string constructQuestion(string &userQuestion)
     }    
 
     baseURL += "&site=stackoverflow";
-
+        string key = "OUgS5vV1jD7kdtN8*nYZKg((";  
     baseURL += "&key=" + key;
     //cout << "Constructed String: " << baseURL << endl;
     return baseURL;
@@ -620,8 +620,9 @@ void updateFilter()
     do {
         printLocation("Filters");
         cout << "Available Filters: " << endl;
-        int i = 1;
-        for(const auto &items: hashMap) {
+        int i = 0;
+        for(const auto &items: hashMap) 
+        {
             if(items.second) 
                 cout << i << ": " << items.first << ", On" << endl; // show the data 
             else    
