@@ -24,8 +24,8 @@ Features
   6. Views
 
 **Requirments:**
-  Step 1: 
-  Step 2: 
+  Step 1. d
+  Step 2. d
   
 
 
