@@ -24,8 +24,10 @@ Features
   6. Views
 
 **Requirments:**
-  Step 1. d
-  Step 2. d
+  Note: Ensure Homebrew is installed (home brew is a package manager for macOS that simplifies the installation of software)
+
+  to install homebrew go to website or run command below 
+  **Command to Install Homebrew: ** ``` /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" ```
   
 
 
