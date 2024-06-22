@@ -4,7 +4,10 @@
 #include <algorithm>
 #include <vector>
 #include <stdlib.h>
+#include <stdio.h>      /* printf, NULL */
 #include <fstream>
+#include <ctime>
+#include <time.h>
 
 // My Libraries 
 #include "authentication.hpp"
@@ -18,7 +21,7 @@
 // libbcrypt: this is a wrapper for Bcrypt encrption algorithm 
 #include "bcrypt/BCrypt.hpp"
 
-// 
+// export MY_VARIABLE = "olqwtcairvkkpdld"
 using namespace std;
 namespace bson = bsoncxx;
 using bson::builder::basic::kvp;
@@ -90,7 +93,7 @@ void authentication::printLocation(string title)
 
 bool authentication::login(mongocxx::database& db)
 {
-     mongocxx::collection collection = db["Users"];
+    mongocxx::collection collection = db["Users"];
     system("clear");
     printLocation("Login");
     string username;
@@ -98,13 +101,15 @@ bool authentication::login(mongocxx::database& db)
     
     bool invalidLogin = false;
 
-    cout << "To return to menu type: \"exit\" to" << endl;
+    cout << "To return to menu type nothing to return" << endl;
     do 
     {
        cout << "Username: ";
-       cin >> username;
-       if (username == "exit") {
-            cout << "Returning to menu..." << endl;
+       cin.ignore(numeric_limits<streamsize>::max(),'\n');
+       getline(cin,username);
+       if(username.empty()) 
+       {
+            
             return false;
         }
 
@@ -133,13 +138,15 @@ void authentication::newMember(mongocxx::database& db)
     
     bool invalidUser = false;
     bool invalidEmail = false;
-    cout << "To return to menu type: \"exit\" to" << endl;
+    cout << "To return to menu enter nothing" << endl;
     do 
     {
+      
        cout << "Username: ";
-       cin >> username;
-       if (username == "exit") {
-            cout << "Returning to menu..." << endl;
+       cin.ignore(numeric_limits<streamsize>::max(),'\n');
+       getline(cin,username);
+       if (username.empty())
+       {     
             return;
         }
 
@@ -159,8 +166,14 @@ void authentication::newMember(mongocxx::database& db)
         
        // Check 1: Username has already been taken 
        invalidUser = !checkIfDataExists(db, username, true);
+       if(invalidUser)
+            cout << "Username is already in use\n" << endl;
+            
        // Check 2: Email already exists in database 
        invalidEmail = !checkIfDataExists(db, email, false);
+       if(invalidEmail)
+            cout << "Email is already in use\n" << endl;
+
     } while(invalidUser || invalidEmail);
     
     string hash = BCrypt::generateHash(password);// this generates our hashed password
@@ -172,24 +185,76 @@ void authentication::newMember(mongocxx::database& db)
 void authentication::forgotPassword(mongocxx::database& db)
 {
     string email;
-    string code;
+    int code;
+    int userInput;
+    string password1;
+    string password2;
     bool invalid = true;
     do
     {
-       cout << "Enter your email below\nEmail:";
-       cin >> email ;
-        // TODO: Check if The Email exsits in our data base 
+       system("clear");
+       printLocation("Forgot Password");
+       cout << "Enter your email below, or enter nothing to return to Previous menu.\nEmail:";
+       cin.ignore(numeric_limits<streamsize>::max(),'\n');
+       getline(cin,email);
        
-        // TODO: Generate a random code 9 digit code       
-        code = "123";
-        sendEmail(email,code);
-        cout << "Code Sent to Email Address\nCode:" << endl;
-        cin  >> code;
+       // if empty return to menu
+       if(email.empty())
+            return;;
 
-
-        // TODO: Check if the code generated mathces what the user input 
+        // now ensure that the email provided is in our databse
+        bool result = checkIfDataExists(db, email, false);
+        if(result)
+        {
+            cout << "Email not found: \nPlease check the email and try again\nPress enter to return to previous menu" << endl;
+            cin.ignore(std::numeric_limits<int>::max(),'\n'); 
+            while(!email.empty())
+                getline(cin,email);
+            
+            return;;
+        }
         
-        invalid = false;
+        code  = randomCodeGenerator();
+        sendEmail(email,code);
+
+        cout << "Code Sent to Email Address, Please Enter Code Below\nCode:";
+        cin  >> userInput;
+        
+        cin.ignore(std::numeric_limits<int>::max(),'\n'); 
+        if(userInput == code)
+        {
+            cout << "Code Match!\nPlease Enter new Password below" << endl;
+            while(true)
+            {
+                cout << "Password:";
+                
+                getline(cin,password1);
+                cout << "Input Password Again:";
+                getline(cin,password2);
+                if(password1 == password2)
+                {
+                    updatePassword(db, email, password1);
+                    cout << "Password has reset!\nPress enter to return" << endl;
+                    cin.ignore(std::numeric_limits<int>::max(),'\n'); 
+                    while(!email.empty())
+                        getline(cin,email);
+                    return;;
+                }
+                    
+                else
+                {
+                    cout << "Password does not match, please re-enter password below" << endl;
+                }
+            }
+            
+        }
+        else
+        {
+            cout << "Code Does not Match" << endl;
+            invalid = true;
+        }
+        
+        
         
     } while(invalid);
 
@@ -205,7 +270,7 @@ bool authentication::checkIfDataExists(const mongocxx::database& db, const strin
         // if cursor.begin DOES NOT Equal cursor.end means username was found inside one of the documents 
         if(cursor.begin() != cursor.end())
         {
-            cout << "Username is already in use\n" << endl;
+            // username was found in our database
             return false;
         }
     }
@@ -214,13 +279,15 @@ bool authentication::checkIfDataExists(const mongocxx::database& db, const strin
         auto filter = make_document(kvp("email", data));
         auto cursor = collection.find(filter.view());
         // if cursor Does not Equal End that means email was found inside one of the documents 
-        if(cursor.begin() != cursor.end())// did not find username 
+        if(cursor.begin() != cursor.end()) 
         {
-            cout << "Email is already in use\n" << endl;
+            // Email was found in our data base
             return false;
         }
         
     }
+
+    // if it reaches here it means email or username was not found in our database  
     return true;
 }
 
@@ -271,6 +338,16 @@ void authentication::insertDocument(mongocxx::collection& collection, const bson
     collection.insert_one(document.view());
 }
 
+void authentication::updatePassword(mongocxx::database& db, string email, string newPassword)
+{
+    mongocxx::collection collection = db["Users"]; // we collection in our data base that has user data 
+    string hashPassword = BCrypt::generateHash(newPassword);// this generates our hashed password
+
+    collection.update_one(bsoncxx::builder::stream::document{} << "email" << email << bsoncxx::builder::stream::finalize,
+		bsoncxx::builder::stream::document{} << "$set" << bsoncxx::builder::stream::open_document << "password" << hashPassword << bsoncxx::builder::stream::close_document << bsoncxx::builder::stream::finalize);
+}
+
+
 size_t authentication::payload_source(void *ptr, size_t size, size_t nmemb, void *userp) 
 {
     struct upload_status *upload_ctx = (struct upload_status *)userp;
@@ -291,12 +368,13 @@ size_t authentication::payload_source(void *ptr, size_t size, size_t nmemb, void
     return 0;
 }
 
-void authentication::sendEmail(const string &to, const string &code) 
+void authentication::sendEmail(const string &to, const int &code) 
 {
     CURL *curl;
     CURLcode res = CURLE_OK;
     struct curl_slist *recipients = NULL;
     struct upload_status upload_ctx = { 0 };
+    string codeString = to_string(code);
 
     // Compose email payload
     upload_ctx.payload.push_back("Date: Mon, 29 Nov 2021 21:54:29 +0000\r\n");
@@ -304,7 +382,7 @@ void authentication::sendEmail(const string &to, const string &code)
     upload_ctx.payload.push_back("From: " + FROM + " (Your Name)\r\n");
     upload_ctx.payload.push_back("Subject: Password Reset Code\r\n");
     upload_ctx.payload.push_back("\r\n"); // Empty line to divide headers from body
-    upload_ctx.payload.push_back("Your password reset code is: " + code + "\r\n");
+    upload_ctx.payload.push_back("Your password reset code is: " + codeString + "\r\n");
     
     const string PASSWORD = getPasswordLocal();
 
@@ -315,8 +393,6 @@ void authentication::sendEmail(const string &to, const string &code)
         curl_easy_setopt(curl, CURLOPT_USERNAME, USERNAME.c_str());
         curl_easy_setopt(curl, CURLOPT_PASSWORD, PASSWORD.c_str());
         curl_easy_setopt(curl, CURLOPT_MAIL_FROM, FROM.c_str());
-
-
         recipients = curl_slist_append(recipients, to.c_str());
         curl_easy_setopt(curl, CURLOPT_MAIL_RCPT, recipients);
         curl_easy_setopt(curl, CURLOPT_READFUNCTION, payload_source);
@@ -325,7 +401,8 @@ void authentication::sendEmail(const string &to, const string &code)
 
         res = curl_easy_perform(curl);
 
-        if (res != CURLE_OK) {
+        if (res != CURLE_OK)
+         {
             fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
         }
 
@@ -359,4 +436,9 @@ string authentication::getPasswordLocal()
         return "";
     }
 
+}
+int authentication::randomCodeGenerator()
+{
+    srand (time(NULL));
+    return rand()%10000000;
 }

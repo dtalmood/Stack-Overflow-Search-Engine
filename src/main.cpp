@@ -105,6 +105,23 @@ int main()
     mongocxx::client client(uri);
     // we establish that we want to look at the Database Labled "UserData" 
     mongocxx::database db = client["UserData"]; 
+    // We want to look in Collection Users
+    std::string collectionName = "Users";
+    // we access the Collection
+    mongocxx::collection collection = db[collectionName];
+
+    // Insert a dummy document into the collection
+    bsoncxx::builder::stream::document document{};
+    document << "dummy_field" << "dummy_value";
+    collection.insert_one(document.view());
+
+    std::cout << "Database and collection are ready." << std::endl;
+
+    // Remove the dummy document
+    collection.delete_one(document.view());
+
+    // now if the DB does not exist and and Colelction does not exist it we 
+    // created a dummy variable so it connects to it
     
     // Initialize CURL globally
     curl_global_init(CURL_GLOBAL_DEFAULT);
@@ -196,7 +213,7 @@ string constructQuestion(string &userQuestion)
     }    
 
     baseURL += "&site=stackoverflow";
-    string key = "OUgS5vV1jD7kdtN8*nYZKg((";  
+
     baseURL += "&key=" + key;
     //cout << "Constructed String: " << baseURL << endl;
     return baseURL;
