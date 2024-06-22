@@ -26,8 +26,22 @@ Features
 **Requirments:**
   Note: Ensure Homebrew is installed (home brew is a package manager for macOS that simplifies the installation of software)
 
-  to install homebrew go to website or run command below 
-  **Command to Install Homebrew: ** ``` /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" ```
+  Install homebrew vist the website or run command below in terminal
+  ```/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" ```
+
+  Install Mongo DB run commands one after another
+  ```brew tap mongodb/brew```
+  ```brew install mongodb-community```
+
+  Start Mongo DB
+  ```brew services start mongodb/brew/mongodb-community```
+
+  To ensure Mongo DB is Running:
+  ```ps aux | grep -v grep | grep mongod```
+
+  Connect to Local Host 27017
+  ```mongo --host 127.0.0.1 --port 27017```
+
   
 
 
