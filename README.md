@@ -6,6 +6,7 @@ This app was made inorder to make searching for question you want to see easier.
 This application has full User Authetnication via MongoDB and once you create your account you can use the search engine. 
 
 Features
+
 **Sort:** Provides user options sort the results by either. 
 
   1. Views
