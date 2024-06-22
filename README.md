@@ -27,6 +27,7 @@ Features
   Note: Ensure Homebrew is installed (home brew is a package manager for macOS that simplifies the installation of software)
 
   Install homebrew vist the website or run command below in terminal
+  
   ```/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" ```
 
   Install Mongo DB run commands one after another
