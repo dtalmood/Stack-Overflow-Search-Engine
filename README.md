@@ -48,9 +48,13 @@ Features
   
   ```mongo --host 127.0.0.1 --port 27017```
 
-  Lastly Install Bcrypt 
+  Install Bcrypt 
 
-  ``` brew install bcrypt ```
+  ```brew install bcrypt ```
+
+ install Mongo-Cxx Driver
+  ```brew install mongocxx ```
+
 
 
 
