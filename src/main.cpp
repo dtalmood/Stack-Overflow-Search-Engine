@@ -213,7 +213,7 @@ string constructQuestion(string &userQuestion)
     }    
 
     baseURL += "&site=stackoverflow";
-        string key = "OUgS5vV1jD7kdtN8*nYZKg((";  
+    string key = "OUgS5vV1jD7kdtN8*nYZKg((";  
     baseURL += "&key=" + key;
     //cout << "Constructed String: " << baseURL << endl;
     return baseURL;
