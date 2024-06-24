@@ -9,10 +9,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add include directories
 include_directories(include) 
-include_directories("${CMAKE_SOURCE_DIR}/Libraries/mongo-cxx-driver/3.10.1/include/mongocxx/v_noabi/")
-include_directories("${CMAKE_SOURCE_DIR}/Libraries/mongo-cxx-driver/3.10.1/include/bsoncxx/v_noabi/")
-include_directories("${CMAKE_SOURCE_DIR}/Libraries/mongo-cxx-driver/3.10.1/include/bsoncxx/v_noabi/bsoncxx/third_party/mnmlstc")
-include_directories("${CMAKE_SOURCE_DIR}/Libraries/bcrypt/1.1/include")
+include_directories("/opt/homebrew/include/mongocxx/v_noabi/")
+include_directories("/opt/homebrew/include/bsoncxx/v_noabi/")
+include_directories("/opt/homebrew/include/bsoncxx/v_noabi/bsoncxx/third_party/mnmlstc")
+include_directories("/usr/local/include/libbcrypt/include/bcrypt") # Updated path for libbcrypt
 
 # Ensure policies are set correctly
 if(COMMAND cmake_policy)
@@ -22,7 +22,7 @@ endif()
 # Find and link MongoDB C++ driver libraries
 find_library(MONGOCXX_LIB mongocxx HINTS "/opt/homebrew/lib" "/opt/homebrew/lib/mongocxx-3.10.1" "/opt/homebrew/lib/mongocxx-3.10.1/lib")
 find_library(BSONCXX_LIB bsoncxx HINTS "/opt/homebrew/lib" "/opt/homebrew/lib/bsoncxx-3.10.1" "/opt/homebrew/lib/bsoncxx-3.10.1/lib")
-find_library(LIBBCRYPT_LIB bcrypt HINTS "/usr/local/lib")
+find_library(LIBBCRYPT_LIB bcrypt HINTS "/usr/local/lib" "/usr/local/libbcrypt/lib") # Updated path for libbcrypt
 
 # Check if libraries were found
 if(NOT MONGOCXX_LIB)

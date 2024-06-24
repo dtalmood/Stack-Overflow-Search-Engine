@@ -19,7 +19,7 @@
 #include <curl/curl.h>
 
 // libbcrypt: this is a wrapper for Bcrypt encrption algorithm 
-#include "bcrypt/BCrypt.hpp"
+#include "BCrypt.hpp"
 
 // export MY_VARIABLE = "olqwtcairvkkpdld"
 using namespace std;

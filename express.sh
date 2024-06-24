@@ -25,13 +25,21 @@ if ! ps aux | grep -v grep | grep mongod >/dev/null; then
   exit 1
 fi
 
-# Install Bcrypt
-echo "Installing Bcrypt..."
-brew install bcrypt
-
 # Install MongoDB C++ Driver (mongocxx)
 echo "Installing MongoDB C++ Driver (mongocxx)..."
 brew install mongocxx
+
+echo "Cloning libbcrypt..."
+git clone https://github.com/trusch/libbcrypt /usr/local/libbcrypt
+
+# Build libbcrypt
+echo "Building libbcrypt..."
+cd /usr/local/libbcrypt
+mkdir build && cd build
+cmake ..
+make
+sudo make install
+
 
 # Inform user about next steps
 echo "Installation completed successfully."

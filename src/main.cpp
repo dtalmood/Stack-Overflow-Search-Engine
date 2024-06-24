@@ -1,5 +1,3 @@
-
-
 // Built in libraries 
 #include <iostream>
 #include <iomanip>
