@@ -22,6 +22,7 @@ Features
   4. Reputation
   5. Score
   6. Views
+
 **Express Instalation:**
 
 First, if not already install homebrew by either visiting the website or run command below in terminal
