@@ -34,11 +34,6 @@ After words Download the File "express.sh" and run the script ( this will instal
 ```./express.sh``` 
 
 
-
-
-
-
-
 **Installation Manual:**
 
   if you would like to know what files are required Below is all Libraries used and how to isntall them one by one 
