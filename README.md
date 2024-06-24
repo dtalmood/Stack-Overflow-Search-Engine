@@ -22,8 +22,27 @@ Features
   4. Reputation
   5. Score
   6. Views
+**Express Instalation:**
 
-**Requirments:**
+First, if not already install homebrew by either visiting the website or run command below in terminal
+  
+  ```/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" ```
+
+
+After words Download the File "express.sh" and run the script ( this will install all necesary libaries to make instalation easy)
+
+```./express.sh``` 
+
+
+
+
+
+
+
+**Installation Manual:**
+
+  if you would like to know what files are required Below is all Libraries used and how to isntall them one by one 
+
   Note: Ensure Homebrew is installed (home brew is a package manager for macOS that simplifies the installation of software)
 
   Install homebrew vist the website or run command below in terminal
@@ -53,6 +72,7 @@ Features
   ```brew install bcrypt ```
 
  install Mongo-Cxx Driver
+ 
   ```brew install mongocxx ```
 
 
