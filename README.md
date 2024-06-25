@@ -25,7 +25,12 @@ Features
 
 **Express Instalation:**
 
-First, if not already install homebrew by either visiting the website or run command below in terminal
+First: You must install xcoe command line toosl inorder to run instalation commands
+
+```xcode-select --install ```
+
+
+Second:, if not already install homebrew by either visiting the website or run command below in terminal
   
   ```/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" ```
 
