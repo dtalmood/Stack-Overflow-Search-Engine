@@ -53,7 +53,7 @@ Once done in terminal run the following command to start up Mongo DB(this will a
 
 ```brew --prefix mongodb/brew/mongodb-community ```
 
-```mongod --config /usr/local/etc/mongod.conf```
+```mongod --config /opt/homebrew/etc/mongod.conf```
 
 Now, in a new terminal, run MongoDB shell to connect to the MongoDB server:
 
