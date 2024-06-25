@@ -20,7 +20,7 @@ fi
 
 # Install MongoDB C++ Driver (mongocxx)
 echo "Installing MongoDB C++ Driver (mongocxx)..."
-brew install mongocxx
+brew install mongo-cxx-driver
 
 # Check if cmake is installed, if not, install it
 echo "Checking if cmake is installed..."
@@ -35,10 +35,11 @@ sudo git clone https://github.com/trusch/libbcrypt /usr/local/libbcrypt
 
 # Build libbcrypt
 echo "Building libbcrypt..."
-cd /usr/local/libbcrypt
-mkdir build && cd build
-cmake ..
-make
+# Ensure the build directory has correct permissions
+sudo mkdir -p /usr/local/libbcrypt/build
+cd /usr/local/libbcrypt/build
+sudo cmake ..
+sudo make
 sudo make install
 
 # Inform user about next steps
