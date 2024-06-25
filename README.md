@@ -49,7 +49,7 @@ After words Download the File "express.sh" (be sure your in directly where this 
 
 Once done in terminal run the following command to start up Mongo DB(this will allow you the client to connect to server local host 27017)
 
-``` mongod --config /usr/local/etc/mongod.conf ```
+```brew --prefix mongodb/brew/mongodb-community ```
 
 Now, in a new terminal, run MongoDB shell to connect to the MongoDB server:
 
