@@ -37,7 +37,7 @@ After last command completes, copy the two commands in section labled **next ste
 
 ```Example 1: (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/YOUR_USER_PROFILE/.zprofile```
 
-``` Example 2: eval "$(/opt/homebrew/bin/brew shellenv)"```
+```Example 2: eval "$(/opt/homebrew/bin/brew shellenv)"```
 
 
 After words Download the File "express.sh" (be sure your in directly where this file is located after donwloading) and run 2 commands below inorder 
