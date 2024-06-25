@@ -30,12 +30,10 @@ First: You must install xcoe command line toosl inorder to run instalation comma
 ```xcode-select --install ```
 
 
-Second:, if not already install homebrew by either visiting the website or run command below in terminal
-  
-  ```/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" ```
+After words Download the File "express.sh" (be sure your in directly where this file is located after donwloading) and run 2 commands below inorder 
 
+``` chmod +x express.sh```
 
-After words Download the File "express.sh" and run the script ( this will install all necesary libaries to make instalation easy)
 
 ```./express.sh``` 
 
