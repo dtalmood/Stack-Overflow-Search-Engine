@@ -5,13 +5,6 @@ command_exists() {
   command -v "$1" >/dev/null 2>&1
 }
 
-# Check if Homebrew is installed, if not, install it
-echo "Checking If homebrew is Already Installed..."
-if ! command_exists brew; then
-  echo "Installing Homebrew..."
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
-
 # Install MongoDB and start it as a service
 echo "Installing MongoDB..."
 brew tap mongodb/brew
