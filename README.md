@@ -51,13 +51,16 @@ After words Download the File "express.sh" (be sure your in directly where this 
 Once done in terminal run the following command to start up Mongo DB(this will allow you the client to connect to server local host 27017)
 
 
-```brew --prefix mongodb/brew/mongodb-community ```
-
 ```mongod --config /opt/homebrew/etc/mongod.conf```
+
+Extra: To ensure that mongoDB is running as a service run command below( you should see mongoDB community started 
+
+```brew services list```
+
 
 Now, in a new terminal, run MongoDB shell to connect to the MongoDB server:
 
-```mongo --host localhost --port 27017 ```
+```mongosh --host localhost --port 27017 ```
 
 
 
