@@ -33,6 +33,7 @@ Second, Donwload Homebrew
 
 ``` /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" ```
 
+
 After last command completes, copy the two commands in section labled **next step** below is example of what the commands will look like
 
 ```Example 1: (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/YOUR_USER_PROFILE/.zprofile```
@@ -49,7 +50,10 @@ After words Download the File "express.sh" (be sure your in directly where this 
 
 Once done in terminal run the following command to start up Mongo DB(this will allow you the client to connect to server local host 27017)
 
+
 ```brew --prefix mongodb/brew/mongodb-community ```
+
+```mongod --config /usr/local/etc/mongod.conf```
 
 Now, in a new terminal, run MongoDB shell to connect to the MongoDB server:
 
