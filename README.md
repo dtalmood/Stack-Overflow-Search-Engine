@@ -23,25 +23,25 @@ Features
   5. Score
   6. Views
 
-**Express Instalation:**
+**Express Instalation:** If you already have Xcode, and Homebrew installed you can skip to Step 4.
 
-First, install xcode command line tools (this allows for installing necesary libraries).
+Step 1: Install xcode command line tools (this allows for installing necesary libraries).
 
 ```xcode-select --install ```
 
-Second, Donwload Homebrew.
+Step 2: Donwload Homebrew.
 
 ``` /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" ```
 
 
-After last command completes, copy the two commands in section labled **next step** below is example of what the commands will look like.
+Step 3: After last command completes, copy the two commands in section labled **next step** below is example of what the commands will look like.
 
 ```Example 1: (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/YOUR_USER_PROFILE/.zprofile```
 
 ```Example 2: eval "$(/opt/homebrew/bin/brew shellenv)"```
 
 
-After words Download the File "express.sh" (be sure your in directly where this file is located after donwloading) and run 2 commands below inorder.
+Step 4: After words Download the File "express.sh" (be sure your in directly where this file is located after donwloading) and run 2 commands below inorder.
 
 ``` chmod +x express.sh```
 
