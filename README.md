@@ -25,9 +25,19 @@ Features
 
 **Express Instalation:**
 
-First: You must install xcoe command line toosl inorder to run instalation commands
+First, install xcode command line tools (this allows for installing necesary libraries)
 
 ```xcode-select --install ```
+
+Second, Donwload Homebrew 
+
+``` /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" ```
+
+After last command completes, copy the two commands in section labled **next step** below is example of what the commands will look like
+
+```Example 1: (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/YOUR_USER_PROFILE/.zprofile```
+
+``` Example 2: eval "$(/opt/homebrew/bin/brew shellenv)"```
 
 
 After words Download the File "express.sh" (be sure your in directly where this file is located after donwloading) and run 2 commands below inorder 
