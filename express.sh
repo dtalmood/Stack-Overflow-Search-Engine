@@ -22,8 +22,16 @@ fi
 echo "Installing MongoDB C++ Driver (mongocxx)..."
 brew install mongocxx
 
+# Check if cmake is installed, if not, install it
+echo "Checking if cmake is installed..."
+if ! command_exists cmake; then
+  echo "Installing cmake..."
+  brew install cmake
+fi
+
+# Clone libbcrypt (requires sudo or appropriate permissions)
 echo "Cloning libbcrypt..."
-git clone https://github.com/trusch/libbcrypt /usr/local/libbcrypt
+sudo git clone https://github.com/trusch/libbcrypt /usr/local/libbcrypt
 
 # Build libbcrypt
 echo "Building libbcrypt..."
@@ -32,7 +40,6 @@ mkdir build && cd build
 cmake ..
 make
 sudo make install
-
 
 # Inform user about next steps
 echo "Installation completed successfully."
