@@ -25,43 +25,50 @@ Features
 
 **Express Instalation:**
 
-First, install xcode command line tools (this allows for installing necesary libraries)
+First, install xcode command line tools (this allows for installing necesary libraries).
 
 ```xcode-select --install ```
 
-Second, Donwload Homebrew 
+Second, Donwload Homebrew.
 
 ``` /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" ```
 
 
-After last command completes, copy the two commands in section labled **next step** below is example of what the commands will look like
+After last command completes, copy the two commands in section labled **next step** below is example of what the commands will look like.
 
 ```Example 1: (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/YOUR_USER_PROFILE/.zprofile```
 
 ```Example 2: eval "$(/opt/homebrew/bin/brew shellenv)"```
 
 
-After words Download the File "express.sh" (be sure your in directly where this file is located after donwloading) and run 2 commands below inorder 
+After words Download the File "express.sh" (be sure your in directly where this file is located after donwloading) and run 2 commands below inorder.
 
 ``` chmod +x express.sh```
 
 
 ```./express.sh``` 
 
-Once done in terminal run the following command to start up Mongo DB(this will allow you the client to connect to server local host 27017)
+Once done in terminal run the following command, this will start Mongo DB server with the configurations which are already setup in mongod.conf.
 
 
 ```mongod --config /opt/homebrew/etc/mongod.conf```
 
-Extra: To ensure that mongoDB is running as a service run command below( you should see mongoDB community started 
+Extra: To ensure that mongoDB server is running,  run command below( you should see mongoDB has community started).
 
 ```brew services list```
 
 
-Now, in a new terminal, run MongoDB shell to connect to the MongoDB server:
+Open a new terminal and run command below. This will connect us to the server. It states we want to connect to mongoDB servers running on local host and listening for port 27017.
 
 ```mongosh --host localhost --port 27017 ```
 
+Once you are ready to disconect to the server (mongosh instnace which connects to local host 27017) type 
+
+```exit```
+
+and to stop the server, run command below 
+
+```brew services stop mongodb/brew/mongodb-community```
 
 
 
