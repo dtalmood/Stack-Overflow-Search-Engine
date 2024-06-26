@@ -23,7 +23,7 @@ Features
   5. Score
   6. Views
 
-**How to start Mongo DB**
+**How to start Mongo DB and Run Application**
 
 Step 1: Run command below to start Mongo DB server with the configurations which are already setup in mongod.conf.
 
@@ -39,8 +39,10 @@ Step 3: Open a new terminal and run command below. This will connect us to the s
 
 ```mongosh --host localhost --port 27017 ```
 
-**Now if you open **
 
+**Now you can Run the Application**
+
+the name of applicaiton is StackSurfer
 
 Step 4: Once you are ready to disconect to the server (mongosh instnace which connects to local host 27017) type 
 
