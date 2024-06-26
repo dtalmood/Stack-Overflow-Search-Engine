@@ -95,6 +95,7 @@ vector<string> TAGS; // user can only have a maximum of 20 tags per quesiont
 
 int main() 
 {
+    system("mongod --config /opt/homebrew/etc/mongod.conf");
     // This establishes a MONOGO DB INSTANCE 
     mongocxx::instance instance{};
     // we state the server we want to connect to 
@@ -152,6 +153,7 @@ int main()
     }
 
     getUserQuestion();
+    system("brew services stop mongodb/brew/mongodb-community");
     curl_global_cleanup();
     return 0;
 }
