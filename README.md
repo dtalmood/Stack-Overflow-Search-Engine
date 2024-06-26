@@ -48,25 +48,27 @@ Step 4: After words Download the File "express.sh" (be sure your in directly whe
 
 ```./express.sh``` 
 
-Once done in terminal run the following command, this will start Mongo DB server with the configurations which are already setup in mongod.conf.
+Step 5: Once done in terminal run the following command, this will start Mongo DB server with the configurations which are already setup in mongod.conf.
 
 
 ```mongod --config /opt/homebrew/etc/mongod.conf```
 
-Extra: To ensure that mongoDB server is running,  run command below( you should see mongoDB has community started).
+Step 6:  To ensure that mongoDB server is running,  run command below( you should see mongoDB has community started).
 
 ```brew services list```
 
 
-Open a new terminal and run command below. This will connect us to the server. It states we want to connect to mongoDB servers running on local host and listening for port 27017.
+Step 7: Open a new terminal and run command below. This will connect us to the server. It states we want to connect to mongoDB servers running on local host and listening for port 27017.
 
 ```mongosh --host localhost --port 27017 ```
 
-Once you are ready to disconect to the server (mongosh instnace which connects to local host 27017) type 
+**You can now run the project,**
+
+Step 8: Once you are ready to disconect to the server (mongosh instnace which connects to local host 27017) type 
 
 ```exit```
 
-and to stop the server, run command below 
+Step 9: and to stop the server, run command below 
 
 ```brew services stop mongodb/brew/mongodb-community```
 
