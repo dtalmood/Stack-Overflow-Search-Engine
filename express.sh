@@ -5,10 +5,21 @@ command_exists() {
   command -v "$1" >/dev/null 2>&1
 }
 
+#install xCode
 echo "Checking if Xcode command line tools are installed..."
 if ! command_exists xcode-select; then
   echo "Installing Xcode command line tools..."
   xcode-select --install
+fi
+
+# Install Homebrew
+echo "Checking if Homebrew is installed..."
+if ! command_exists brew; then
+  echo "Installing Homebrew..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  echo "Running Homebrew setup steps..."
+  (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> "$HOME/.zprofile"
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 # Install MongoDB and start it as a service
