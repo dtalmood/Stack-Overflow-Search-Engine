@@ -13,7 +13,7 @@ This application has full User Authentication via MongoDB and once you create yo
     2. Answer Count
     3. Score
   
-  **Tags:** Allows users to have specific tags to ensure results relate more closely to what you are looking for. Addtionaly you can 
+  **Tags:** Allows users to have specific tags to ensure results relate more closely to what you are looking for. Additionally you can do the following 
   
     1. Add a tag
     2. View all tags
