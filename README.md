@@ -40,8 +40,6 @@ Step 2: To Install Xcode command line tools run the command below(this allows fo
      xcode-select --install
 
 
-
-
 Step 2: Afterwards Download the File "express.sh" located in this repository, Open the terminal, and go to the file directory where you downloaded express.sh, and run the following two commands in order 
 
      chmod +x express.sh
@@ -52,7 +50,7 @@ Step 2: Afterwards Download the File "express.sh" located in this repository, Op
 
 # How to run Application: 
 
-Step 1: Install StackSurfer which is located in this Repository
+Step 1: Install the file named "StackSurfer" which is located inside this Repository.
 
 Step 2: Open terminal, go to the file directory where your StackSurfer download is located, and run the following command.
 
