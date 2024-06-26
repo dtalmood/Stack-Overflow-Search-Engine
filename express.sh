@@ -5,6 +5,12 @@ command_exists() {
   command -v "$1" >/dev/null 2>&1
 }
 
+echo "Checking if Xcode command line tools are installed..."
+if ! command_exists xcode-select; then
+  echo "Installing Xcode command line tools..."
+  xcode-select --install
+fi
+
 # Install MongoDB and start it as a service
 echo "Installing MongoDB..."
 brew tap mongodb/brew
