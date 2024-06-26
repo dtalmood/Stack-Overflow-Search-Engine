@@ -25,7 +25,7 @@ Features
 
 **How to run Applicationn**
 
-Step 1: Install StackSurefer Exe in this Repository
+Step 1: Install StackSurfer which is located in this Repository
 
 Step 2: Open terminal and go to file directory of where you downloaded stack surfer and run the following two commands in order 
 
