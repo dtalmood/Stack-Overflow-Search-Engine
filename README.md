@@ -15,10 +15,10 @@ This application has full User Authentication via MongoDB and once you create yo
   
   **Tags:** Allows users to have specific tags to ensure results relate more closely to what you are looking for. Addtionaly you can 
   
-    1. Add Tag
-    2. View all Tags
-    3. Remove Tags Individually
-    4. Remove all Tags
+    1. Add a tag
+    2. View all tags
+    3. Remove tags individually
+    4. Remove all tags
   
   **Filters:** Any information you do or do not care to see can be simply adjusted via the filters which can remove the following from the search result 
 
