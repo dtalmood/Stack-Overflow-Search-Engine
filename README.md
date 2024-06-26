@@ -45,7 +45,7 @@ Step 2: To Install xcode command line tools run command below(this allows for in
 
 
 
-Step 2: Afterwords Download the File "express.sh" located in this repository, Open terminal, and go to file directory of where you downloaded express.sh and run the following two commands in order 
+Step 2: Afterwards Download the File "express.sh" located in this repository, Open terminal, and go to file directory of where you downloaded express.sh and run the following two commands in order 
 
 ``` chmod +x express.sh```
 
