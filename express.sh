@@ -5,13 +5,6 @@ command_exists() {
   command -v "$1" >/dev/null 2>&1
 }
 
-#install xCode
-echo "Checking if Xcode command line tools are installed..."
-if ! command_exists xcode-select; then
-  echo "Installing Xcode command line tools..."
-  xcode-select --install
-fi
-
 # Install Homebrew
 echo "Checking if Homebrew is installed..."
 if ! command_exists brew; then
