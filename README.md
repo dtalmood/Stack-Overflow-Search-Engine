@@ -30,7 +30,7 @@ This application has full User Authentication via MongoDB and once you create yo
     6. Views
 
 
-# Express Installation: 
+# Installation: 
 
 Step 1: Open Terminal
 
