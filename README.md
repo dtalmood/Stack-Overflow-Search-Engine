@@ -39,10 +39,10 @@ Step 3: Open a new terminal and run command below. This will connect us to the s
 
 ```mongosh --host localhost --port 27017 ```
 
-**You can now run the project,**
+**Now if you open **
 
 
-Step 8: Once you are ready to disconect to the server (mongosh instnace which connects to local host 27017) type 
+Step 4: Once you are ready to disconect to the server (mongosh instnace which connects to local host 27017) type 
 
 ```exit```
 
