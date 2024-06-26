@@ -23,16 +23,6 @@ Features
   5. Score
   6. Views
 
-**How to run Applicationn**
-
-Step 1: Install StackSurfer which is located in this Repository
-
-Step 2: Open terminal and go to file directory of where you downloaded stack surfer and run the following the following command.
-
-``` chmod +x StackSurfer```
-
-Step 3: Now if you click on Stack Surfer it should open the app in Terminal.
-
 
 **Express Instalation:** 
 
@@ -51,6 +41,18 @@ Step 2: Afterwards Download the File "express.sh" located in this repository, Op
 
 
 ```./express.sh``` 
+
+
+**How to run Applicationn**
+
+Step 1: Install StackSurfer which is located in this Repository
+
+Step 2: Open terminal and go to file directory of where you downloaded stack surfer and run the following the following command.
+
+``` chmod +x StackSurfer```
+
+Step 3: Now if you click on Stack Surfer it should open the app in Terminal.
+
 
 
 
