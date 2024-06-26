@@ -37,7 +37,12 @@ Step 1: Open Terminal
 
 Step 2: To Install Xcode command line tools run the command below(this allows for installing necessary libraries).
 
-```xcode-select --install ```
+ ```xcode-select --install ```
+
+ 
+     xcode-select --install
+
+
 
 
 Step 2: Afterwards Download the File "express.sh" located in this repository, Open the terminal, and go to the file directory where you downloaded express.sh, and run the following two commands in order 
