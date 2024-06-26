@@ -23,6 +23,35 @@ Features
   5. Score
   6. Views
 
+**How to start Mongo DB**
+
+Step 1: Run command below to start Mongo DB server with the configurations which are already setup in mongod.conf.
+
+
+```mongod --config /opt/homebrew/etc/mongod.conf```
+
+Step 2:  To ensure that mongoDB server is running,  run command below( you should see mongoDB has community started).
+
+```brew services list```
+
+
+Step 3: Open a new terminal and run command below. This will connect us to the server. It states we want to connect to mongoDB servers running on local host and listening for port 27017.
+
+```mongosh --host localhost --port 27017 ```
+
+**You can now run the project,**
+
+
+Step 8: Once you are ready to disconect to the server (mongosh instnace which connects to local host 27017) type 
+
+```exit```
+
+Step 9: and to stop the server, run command below 
+
+```brew services stop mongodb/brew/mongodb-community```
+
+
+
 **Express Instalation:** If you already have Xcode, and Homebrew installed you can skip to Step 4.
 
 Step 1: Install xcode command line tools (this allows for installing necesary libraries).
@@ -48,29 +77,6 @@ Step 4: After words Download the File "express.sh" (be sure your in directly whe
 
 ```./express.sh``` 
 
-Step 5: Once done in terminal run the following command, this will start Mongo DB server with the configurations which are already setup in mongod.conf.
-
-
-```mongod --config /opt/homebrew/etc/mongod.conf```
-
-Step 6:  To ensure that mongoDB server is running,  run command below( you should see mongoDB has community started).
-
-```brew services list```
-
-
-Step 7: Open a new terminal and run command below. This will connect us to the server. It states we want to connect to mongoDB servers running on local host and listening for port 27017.
-
-```mongosh --host localhost --port 27017 ```
-
-**You can now run the project,**
-
-Step 8: Once you are ready to disconect to the server (mongosh instnace which connects to local host 27017) type 
-
-```exit```
-
-Step 9: and to stop the server, run command below 
-
-```brew services stop mongodb/brew/mongodb-community```
 
 
 
