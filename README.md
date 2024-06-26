@@ -46,6 +46,7 @@ Step 2: Afterwards Download the File "express.sh" located in this repository, Op
 
      chmod +x express.sh
      
+     
      ./express.sh
 
 
@@ -55,7 +56,7 @@ Step 1: Install StackSurfer which is located in this Repository
 
 Step 2: Open terminal, go to the file directory where your StackSurfer download is located, and run the following command.
 
-```chmod +x StackSurfer```
+     chmod +x StackSurfer
 
 Step 3: Now if you click on Stack Surfer it should open the app in Terminal.
 
