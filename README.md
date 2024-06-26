@@ -27,22 +27,27 @@ Features
 
 Step 1: Install StackSurfer which is located in this Repository
 
-Step 2: Open terminal and go to file directory of where you downloaded stack surfer and run the following two commands in order 
+Step 2: Open terminal and go to file directory of where you downloaded stack surfer and run the following the following command.
 
 ``` chmod +x StackSurfer```
+
+Step 3: Now if you click on Stack Surfer it should open app in Terminal.
 
 
 ```./StackSurfer``` 
 
 **Express Instalation:** 
 
-Step 1: Install xcode command line tools (this allows for installing necesary libraries).
+Step 1: Open Terminal
+
+
+Step 2: To Install xcode command line tools run command below(this allows for installing necesary libraries).
 
 ```xcode-select --install ```
 
 
 
-Step 2: After words Download the File "express.sh", Open terminal and go to file directory of where you downloaded express.sh and run the following two commands in order 
+Step 2: Afterwords Download the File "express.sh", Open terminal, and go to file directory of where you downloaded express.sh and run the following two commands in order 
 
 ``` chmod +x express.sh```
 
