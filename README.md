@@ -16,6 +16,7 @@ This application has full User Authentication via MongoDB and once you create yo
   **Tags:** Allows users to have specific tags to ensure results relate more closely to what you are looking for. 
   
   **Filters:** Any information you do or do not care to see can be simply adjusted via the filters which can remove the following from the search result 
+
     1. Acceptance Rate
     2. Answer Count
     3. Creation Date
