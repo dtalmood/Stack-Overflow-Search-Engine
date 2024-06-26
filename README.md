@@ -23,56 +23,26 @@ Features
   5. Score
   6. Views
 
-**How to start Mongo DB and Run Application**
+**How to run Applicationn**
 
-Step 1: Run command below to start Mongo DB server with the configurations which are already setup in mongod.conf.
+Step 1: Install StackSurefer Exe in this Repository
 
+Step 2: Open terminal and go to file directory of where you downloaded stack surfer and run the following two commands in order 
 
-```mongod --config /opt/homebrew/etc/mongod.conf```
-
-Step 2:  To ensure that mongoDB server is running,  run command below( you should see mongoDB has community started).
-
-```brew services list```
+``` chmod +x StackSurfer```
 
 
-Step 3: Open a new terminal and run command below. This will connect us to the server. It states we want to connect to mongoDB servers running on local host and listening for port 27017.
+```./StackSurfer``` 
 
-```mongosh --host localhost --port 27017 ```
-
-
-**Now you can Run the Application**
-
-the name of applicaiton is StackSurfer
-
-Step 4: Once you are ready to disconect to the server (mongosh instnace which connects to local host 27017) type 
-
-```exit```
-
-Step 9: and to stop the server, run command below 
-
-```brew services stop mongodb/brew/mongodb-community```
-
-
-
-**Express Instalation:** If you already have Xcode, and Homebrew installed you can skip to Step 4.
+**Express Instalation:** 
 
 Step 1: Install xcode command line tools (this allows for installing necesary libraries).
 
 ```xcode-select --install ```
 
-Step 2: Donwload Homebrew.
-
-``` /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" ```
 
 
-Step 3: After last command completes, copy the two commands in section labled **next step** below is example of what the commands will look like.
-
-```Example 1: (echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/YOUR_USER_PROFILE/.zprofile```
-
-```Example 2: eval "$(/opt/homebrew/bin/brew shellenv)"```
-
-
-Step 4: After words Download the File "express.sh" (be sure your in directly where this file is located after donwloading) and run 2 commands below inorder.
+Step 2: After words Download the File "express.sh", Open terminal and go to file directory of where you downloaded express.sh and run the following two commands in order 
 
 ``` chmod +x express.sh```
 
