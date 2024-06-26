@@ -1,4 +1,4 @@
-# Stack-Overflow-Search-Engine
+# Stacksurfer 
 Have you ever felt that the Stackoverflow search results do not match what you are looking for? 
 
 This app was made in order to make searching for questions you want to see easier. 
@@ -24,7 +24,7 @@ Features
   6. Views
 
 
-**Express Installation:** 
+# Express Installation: 
 
 Step 1: Open Terminal
 
@@ -43,7 +43,7 @@ Step 2: Afterwards Download the File "express.sh" located in this repository, Op
 ```./express.sh``` 
 
 
-**How to run Application**
+# How to run Application: 
 
 Step 1: Install StackSurfer which is located in this Repository
 
