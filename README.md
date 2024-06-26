@@ -34,8 +34,6 @@ Step 2: Open terminal and go to file directory of where you downloaded stack sur
 Step 3: Now if you click on Stack Surfer it should open app in Terminal.
 
 
-```./StackSurfer``` 
-
 **Express Instalation:** 
 
 Step 1: Open Terminal
